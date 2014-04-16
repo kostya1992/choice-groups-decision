@@ -1,0 +1,35 @@
+@CHARSET "UTF-8";
+
+#main{
+	margin:3% 3% 3% 3%;
+	height:94%;
+	padding:2% 2% 2% 2%;
+	border: dashed black 2;
+}
+
+#initializationDiv{
+/* 	position:fixed; */
+	width:90%;
+	margin-left:1%;
+	margin-right:1%;
+	padding:2% 2% 2% 2%;
+	border: dashed gray 1;
+	height: 500px;
+}
+
+
+#initExpertsDiv{
+	padding:1% 1% 1% 1%;
+	border: solid gray 1;
+	float: left;
+	width: 40%;
+	height: 300px;
+}
+
+#initAlternativesDiv{
+	padding:1% 1% 1% 1%;
+	border: solid gray 1;
+	float: right;
+	width: 40%;
+	height: 300px;
+}
