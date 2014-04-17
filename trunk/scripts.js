@@ -15,50 +15,48 @@ function process() {
 	var experts = document.getElementsByName("alternatives");
 	var alternatives = [];
 	var childNodes = [];
-	for (var i = 0; i < experts.length; i++) {
+	for ( var i = 0; i < experts.length; i++) {
 		alternatives[i] = [];
 		childNodes = experts[i].getElementsByTagName('li');
-		for (var j = 0; j < childNodes.length; j++) {
+		for ( var j = 0; j < childNodes.length; j++) {
 			alternatives[i][childNodes[j].id] = childNodes[j].innerText;
 		}
 	}
-	// result in double array[i][j]. i - methods, j - result by method
+	// result in double array[i][j]. i - methods, j - result by method (key - alternative, value count of points)
 	var result = getAllResults(alternatives);
-	var s='';
-	for (var i = 0; i < result.length; i++) {
+	var s = '';
+	for ( var i = 0; i < result.length; i++) {
 		for (key in result[i]) {
-			s+=key+' '+result[i][key]+" | ";
+			s += key + ' ' + result[i][key] + " | ";
 		}
 	}
-	
-	alert(s);
+
+	console.log(s);
 }
 
 function getAllResults(alternatives) {
 	var resultAllMethods = [];
 	var bordaResult = getBordaResult(alternatives);
-	resultAllMethods = convertResult(resultAllMethods, 0, bordaResult,
-			alternatives);
+	resultAllMethods[0] = sortAssosiationArrayDesc(bordaResult);
 	var koplendaResult = getKoplendaResult(alternatives);
-	resultAllMethods = convertResult(resultAllMethods, 1, koplendaResult,
-			alternatives);
+	// resultAllMethods = sortAssosiationArrayDesc(koplendaResult);
 	// add all methods
 	return resultAllMethods;
 }
-function convertResult(resultAllMethods, i, result, alternatives) {
-	resultAllMethods[i] = [];
+function convertResult(result, alternatives) {
+	var resultMethod = [];
 	if (alternatives.length > 0) {
-		for (key in result) {
-			resultAllMethods[i].push(alternatives[0][key]);
+		var sortResult=sortAssosiationArrayDesc(result);
+		for (key in sortResult) {
+			resultMethod.push(alternatives[0][key]);
 		}
 	}
-	return resultAllMethods;
+		console.log(sortResult);
+	return resultMethod;
 }
 function getBordaResult(alternatives) {
 	var relultMark = [];
-	var expertCount = alternatives.length;
-
-	for (var i = 0; i < expertCount; i++) {
+	for ( var i = 0; i < alternatives.length; i++) {
 		var altCount = 1;
 		var alternativeCount = arraySize(alternatives[i]);
 		for (key in alternatives[i]) {
@@ -75,10 +73,24 @@ function getKoplendaResult(alternatives) {
 	// TODO implement Method Koplenda
 	return alternatives[0];
 }
-function arraySize(obj) {
+function arraySize(arr) {
 	var size = 0;
-	for (key in obj) {
+	for (key in arr) {
 		size++;
 	}
 	return size;
+}
+function sortAssosiationArrayDesc(arr) {
+	var sortedKeys = [];
+	var sortedObj = [];
+	for (key in arr) {
+		sortedKeys.push([key,arr[key]]);
+	}
+	sortedKeys.sort(function(a, b) {
+		return b[1] - a[1];
+	});
+	for ( var i in sortedKeys) {
+		sortedObj[sortedKeys[i][0]] = arr[sortedKeys[i][0]];
+	}
+	return sortedObj;
 };
