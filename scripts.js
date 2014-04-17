@@ -3,7 +3,7 @@
  */
 
 function showMessage(){
-alert("Все ОК!");
+alert("Hello!");
 }
 //function for sort list
 $(function() {
@@ -14,14 +14,40 @@ $(function() {
 function process(){
 	var experts=document.getElementsByName("expert");
 	var alternatives = [];
-	for(i=0;i<experts.length;i++){
+	var childNodes=[];
+	for(var i=0;i<experts.length;i++){
 		alternatives[i]=[];
-		var childNodes=experts[i].getElementsByTagName('li');
-		for(j=0;j<childNodes.length;j++){
-				alternatives[i][j]=childNodes[j].id;
-			}
+		childNodes=experts[i].getElementsByTagName('li');
+		for(var j=0;j<childNodes.length;j++){
+				alternatives[i][childNodes[j].id]=childNodes[j].innerText;
+		}
 	}
-	alert(alternatives);
-	//TODO: add invocation of all methods
-	
+	//result in double array[i][j]. i - methods, j - result by method 
+	var result = getAllResults(alternatives, childNodes);
+	alert(result);
+}
+
+function getAllResults(alternatives,childNodes){
+	var resultAllMethods = [];
+	var bordaResult = getBordaResult(alternatives);
+	resultAllMethods=convertResult(resultAllMethods, 0, bordaResult, childNodes);
+	var koplendaResult = getKoplendaResult(alternatives);
+	resultAllMethods=convertResult(resultAllMethods, 1, koplendaResult, childNodes);
+	//add all methods
+	return resultAllMethods;
+}
+function convertResult(resultAllMethods,i,result,childNodes){
+	resultAllMethods[i]=[];
+	for (key in result) {
+		resultAllMethods[i].push(childNodes[key].innerText);
+	}
+	return resultAllMethods;
+}
+function getBordaResult(alternatives){
+	//TODO implement Method Borda
+	return alternatives[0];
+}
+function getKoplendaResult(alternatives){
+	//TODO implement Method Koplenda
+	return alternatives[0];
 }
