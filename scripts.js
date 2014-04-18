@@ -103,3 +103,4 @@ function expand() {
 	} else {
 		div.hide('slow');
 	}
+}
