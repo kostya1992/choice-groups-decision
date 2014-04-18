@@ -21,8 +21,8 @@
 	padding: 1% 1% 1% 1%;
 	border: solid gray 1;
 	float: left;
-	width: 40%;
-	height: 300px;
+/* 	width: 40%; */
+/* 	height: 300px; */
 }
 
 #initAlternativesDiv {
@@ -48,4 +48,12 @@
 	margin: 5px;
 	padding: 5px;
 	height: 30px;
+}
+.selected li {
+	background-color: green;
+	color: white;
+}
+
+.padding{
+	padding: 3px; 
 }
