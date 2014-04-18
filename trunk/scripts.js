@@ -22,7 +22,8 @@ function process() {
 			alternatives[i][childNodes[j].id] = childNodes[j].innerText;
 		}
 	}
-	// result in double array[i][j]. i - methods, j - result by method (key - alternative, value count of points)
+	// result in double array[i][j]. i - methods, j - result by method (key -
+	// alternative, value count of points)
 	var result = getAllResults(alternatives);
 	var s = '';
 	for ( var i = 0; i < result.length; i++) {
@@ -94,3 +95,11 @@ function sortAssosiationArrayDesc(arr) {
 	}
 	return sortedObj;
 };
+
+function expand() {
+	div = $('div[name=alternativesDiv]');
+	if (div.css('display') == 'none') {
+		div.show('slow');
+	} else {
+		div.hide('slow');
+	}
