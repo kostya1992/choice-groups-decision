@@ -1,10 +1,37 @@
 /**
  * 
  */
-
-function showMessage() {
-	alert("Hello!");
+function init() {
+	window.alternativeIndex = 0;
+	window.expertIndex = 0;
+	window.expertFormHeight=0;
+	window.addExpertFirstTime=true;
 }
+
+function addAlternative() {
+	$("ul.alternatives").append(
+			'<li id="alternative_' + alternativeIndex++ + '">Item '
+					+ alternativeIndex + '</li>');
+}
+function addExpert() {
+	$("ul.experts")
+			.append(
+					'<li id="expert_'
+							+ expertIndex
+							+ '"><form id ="expertForm_'
+							+ expertIndex
+							+ '" role="form" class="form-inline"><input type="text" class="form-control" value="Expert Name"><label type="label" name="expandLabel'
+							+ expertIndex
+							+ '" class="form-control" onclick="expand('
+							+ expertIndex
+							+ ')"> Expand</label><div id="alternativesOfEpert'
+							+ expertIndex++
+							+ '" class="form-control"style="display: none;"><ul name="alternatives" class="sortable alternatives"></ul></div></form></li>');
+if(addExpertFirstTime){
+	expertFormHeight=$('#expertForm_0').height();
+}
+}
+
 // function for sort list
 $(function() {
 	$(".sortable").sortable();
@@ -15,10 +42,10 @@ function process() {
 	var experts = document.getElementsByName("alternatives");
 	var alternatives = [];
 	var childNodes = [];
-	for ( var i = 0; i < experts.length; i++) {
+	for (var i = 0; i < experts.length; i++) {
 		alternatives[i] = [];
 		childNodes = experts[i].getElementsByTagName('li');
-		for ( var j = 0; j < childNodes.length; j++) {
+		for (var j = 0; j < childNodes.length; j++) {
 			alternatives[i][childNodes[j].id] = childNodes[j].innerText;
 		}
 	}
@@ -26,7 +53,7 @@ function process() {
 	// alternative, value count of points)
 	var result = getAllResults(alternatives);
 	var s = '';
-	for ( var i = 0; i < result.length; i++) {
+	for (var i = 0; i < result.length; i++) {
 		for (key in result[i]) {
 			s += key + ' ' + result[i][key] + " | ";
 		}
@@ -47,17 +74,17 @@ function getAllResults(alternatives) {
 function convertResult(result, alternatives) {
 	var resultMethod = [];
 	if (alternatives.length > 0) {
-		var sortResult=sortAssosiationArrayDesc(result);
+		var sortResult = sortAssosiationArrayDesc(result);
 		for (key in sortResult) {
 			resultMethod.push(alternatives[0][key]);
 		}
 	}
-		console.log(sortResult);
+	console.log(sortResult);
 	return resultMethod;
 }
 function getBordaResult(alternatives) {
 	var relultMark = [];
-	for ( var i = 0; i < alternatives.length; i++) {
+	for (var i = 0; i < alternatives.length; i++) {
 		var altCount = 1;
 		var alternativeCount = arraySize(alternatives[i]);
 		for (key in alternatives[i]) {
@@ -85,7 +112,7 @@ function sortAssosiationArrayDesc(arr) {
 	var sortedKeys = [];
 	var sortedObj = [];
 	for (key in arr) {
-		sortedKeys.push([key,arr[key]]);
+		sortedKeys.push([ key, arr[key] ]);
 	}
 	sortedKeys.sort(function(a, b) {
 		return b[1] - a[1];
@@ -96,11 +123,16 @@ function sortAssosiationArrayDesc(arr) {
 	return sortedObj;
 };
 
-function expand() {
-	div = $('div[name=alternativesDiv]');
+function expand(expertIndex) {
+	var div = $('#alternativesOfEpert' + expertIndex);
+	var form = $('#expertForm_' + expertIndex);
 	if (div.css('display') == 'none') {
 		div.show('slow');
+		var alternLength = $('#sourceAlternatives li').length;
+		form.height(form.height() + (alternLength * 25));
 	} else {
 		div.hide('slow');
+		form.height(expertFormHeight);
 	}
+
 }
