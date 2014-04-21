@@ -136,3 +136,44 @@ function expand(expertIndex) {
 	}
 
 }
+
+function compare(alt1, alt2, results) {
+    return  _.countBy(results, function (vote) {
+        return vote[alt1] <= vote[alt2] ? alt1 : alt2;
+    });
+}
+
+function makePairs(someArray, storage) {
+    var rest = _.rest(someArray, 1);
+    for (var i = 0; i < rest.length; i++) {
+        storage.push([someArray[0], rest[i]]);
+    }
+    if (rest.length != 0) makePairs(rest, storage);
+}
+
+function kondorse(results) {
+    var alternatives = _.keys(results[0]);
+    var pairs = [];
+    makePairs(alternatives, pairs);
+    console.log("all possible pairs - "+JSON.stringify(pairs));
+    var comparison = [];
+    _.each(pairs, function (pair) {
+        var res = compare(pair[0], pair[1], results);
+        comparison.push(res);
+        console.log(JSON.stringify(res));
+    })
+    return comparison;
+}
+
+$(function () {
+    $("#kondorse").on("click", function () {
+        var voteResults = [
+            {lviv: 1, kiev: 3, niko: 2},
+            {lviv: 3, kiev: 1, niko: 2},
+            {lviv: 2, kiev: 3, niko: 1},
+            {lviv: 1, kiev: 3, niko: 2},
+            {lviv: 1, kiev: 2, niko: 3}
+        ];
+        alert("People prefer:"+JSON.stringify(kondorse(voteResults)));
+    });
+});
