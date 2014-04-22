@@ -4,8 +4,8 @@
 function init() {
 	window.alternativeIndex = 0;
 	window.expertIndex = 0;
-	window.expertFormHeight=0;
-	window.addExpertFirstTime=true;
+	window.expertFormHeight = 0;
+	window.addExpertFirstTime = true;
 }
 
 function addAlternative() {
@@ -25,11 +25,16 @@ function addExpert() {
 							+ '" class="form-control" onclick="expand('
 							+ expertIndex
 							+ ')"> Expand</label><div id="alternativesOfEpert'
-							+ expertIndex++
-							+ '" class="form-control"style="display: none;"><ul name="alternatives" class="sortable alternatives"></ul></div></form></li>');
-if(addExpertFirstTime){
-	expertFormHeight=$('#expertForm_0').height();
-}
+							+ expertIndex
+							+ '" class="form-control" style="display: none;"><ul name="alternatives" class="sortable alternatives"></ul></div></form></li>');
+	if (addExpertFirstTime) {
+		expertFormHeight = $('#expertForm_0').height();
+	}
+	$('#alternativesOfEpert' + expertIndex + ' ul').append(
+			$('#sourceAlternatives li').clone());
+
+	$(".sortable").sortable();
+	expertIndex++;
 }
 
 // function for sort list
@@ -129,7 +134,7 @@ function expand(expertIndex) {
 	if (div.css('display') == 'none') {
 		div.show('slow');
 		var alternLength = $('#sourceAlternatives li').length;
-		form.height(form.height() + (alternLength * 25));
+		form.height(form.height() + (alternLength * 28));
 	} else {
 		div.hide('slow');
 		form.height(expertFormHeight);
@@ -138,42 +143,63 @@ function expand(expertIndex) {
 }
 
 function compare(alt1, alt2, results) {
-    return  _.countBy(results, function (vote) {
-        return vote[alt1] <= vote[alt2] ? alt1 : alt2;
-    });
+	return _.countBy(results, function(vote) {
+		return vote[alt1] <= vote[alt2] ? alt1 : alt2;
+	});
 }
 
 function makePairs(someArray, storage) {
-    var rest = _.rest(someArray, 1);
-    for (var i = 0; i < rest.length; i++) {
-        storage.push([someArray[0], rest[i]]);
-    }
-    if (rest.length != 0) makePairs(rest, storage);
+	var rest = _.rest(someArray, 1);
+	for (var i = 0; i < rest.length; i++) {
+		storage.push([ someArray[0], rest[i] ]);
+	}
+	if (rest.length != 0)
+		makePairs(rest, storage);
 }
 
 function kondorse(results) {
-    var alternatives = _.keys(results[0]);
-    var pairs = [];
-    makePairs(alternatives, pairs);
-    console.log("all possible pairs - "+JSON.stringify(pairs));
-    var comparison = [];
-    _.each(pairs, function (pair) {
-        var res = compare(pair[0], pair[1], results);
-        comparison.push(res);
-        console.log(JSON.stringify(res));
-    })
-    return comparison;
+	var alternatives = _.keys(results[0]);
+	var pairs = [];
+	makePairs(alternatives, pairs);
+	console.log("all possible pairs - " + JSON.stringify(pairs));
+	var comparison = [];
+	_.each(pairs, function(pair) {
+		var res = compare(pair[0], pair[1], results);
+		comparison.push(res);
+		console.log(JSON.stringify(res));
+	})
+	return comparison;
 }
 
-$(function () {
-    $("#kondorse").on("click", function () {
-        var voteResults = [
-            {lviv: 1, kiev: 3, niko: 2},
-            {lviv: 3, kiev: 1, niko: 2},
-            {lviv: 2, kiev: 3, niko: 1},
-            {lviv: 1, kiev: 3, niko: 2},
-            {lviv: 1, kiev: 2, niko: 3}
-        ];
-        alert("People prefer:"+JSON.stringify(kondorse(voteResults)));
-    });
+$(function() {
+	$("#kondorse").on("click", function() {
+		var voteResults = [ {
+			lviv : 1,
+			kiev : 3,
+			niko : 2
+		}, {
+			lviv : 3,
+			kiev : 1,
+			niko : 2
+		}, {
+			lviv : 2,
+			kiev : 3,
+			niko : 1
+		}, {
+			lviv : 1,
+			kiev : 3,
+			niko : 2
+		}, {
+			lviv : 1,
+			kiev : 2,
+			niko : 3
+		} ];
+		alert("People prefer:" + JSON.stringify(kondorse(voteResults)));
+	});
 });
+
+function msg(text) {
+	var div = $("#msg");
+	div.text(text);
+	div.show('slow').delay(4000).fadeOut();
+}

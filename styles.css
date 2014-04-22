@@ -19,6 +19,16 @@
 	float: left;
 }
 
+#msg {
+	position: fixed;
+	right: 1px;
+	top: 40%;
+	height: 70px;
+	width: 260px;
+	background-color: silver;
+	display: none;
+}
+
 #initializationDiv {
 	/* 	position:fixed; */
 	width: 90%;
