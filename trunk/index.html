@@ -7,6 +7,7 @@
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 <script src="scripts.js"></script>
+<script src="methods.js"></script>
 <link rel="stylesheet"
 	href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 <link rel="stylesheet"
@@ -28,7 +29,7 @@
 		<div id="workingArea" class="container">
 			<p class="text-primary">
 				<a id="kondorse" style="cursor: pointer"> Метод Кондорсе</a><br>
-				Метод Борда<br> Правило Копленда<br> Правило Сімпсона
+				<a id="borda" style="cursor: pointer">Метод Борда</a><br> Правило Копленда<br> Правило Сімпсона
 			</p>
 			<div class="border">Etap1</div>
 
@@ -57,7 +58,7 @@
 			<div class="border">Etap3</div>
 
 			<div id="etap3Container" class="container">
-				<button type="button" class="btn btn-primary">Execute</button>
+				<button type="button" class="btn btn-primary" onclick="process()">Execute</button>
 			</div>
 
 			<div class="border">Etap4</div>
