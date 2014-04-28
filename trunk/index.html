@@ -7,7 +7,6 @@
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 <script src="scripts.js"></script>
-<script src="methods.js"></script>
 <link rel="stylesheet"
 	href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 <link rel="stylesheet"
@@ -29,39 +28,50 @@
 		<div id="workingArea" class="container">
 			<p class="text-primary">
 				<a id="kondorse" style="cursor: pointer"> Метод Кондорсе</a><br>
-				<a id="borda" style="cursor: pointer">Метод Борда</a><br> Правило Копленда<br> Правило Сімпсона
+				Метод Борда<br> Правило Копленда<br> Правило Сімпсона
 			</p>
-			<div class="border">Etap1</div>
+			<h2 class="text-info" align="center">
+				Куди поїхати відпочивати в межах України?
+				</h1>
+				<div class="border">Etap1</div>
 
-			<div id="initAlternativesDiv">
-				Enter amount of alternatives <input
-					style="width: 36px; height: 20px">
-				<button type="button" class="btn btn-success"
-					onclick="addAlternative()">+</button>
-				<button type="button" class="btn btn-danger">-</button>
+				<div id="initAlternativesDiv">
+					Enter amount of alternatives <input
+						style="width: 36px; height: 20px">
+					<button type="button" class="btn btn-success"
+						onclick="addAlternative()">+</button>
+					<button type="button" class="btn btn-danger">-</button>
 
-				<ul id="sourceAlternatives" class="sortable alternatives">
-				</ul>
+					<ul id="sourceAlternatives" class="alternatives">
+						<li id="alternative_0"><input type="text"
+							class="form-control" value="Львів"></li>
+						<li id="alternative_1"><input type="text"
+							class="form-control" value="Карпати"></li>
+						<li id="alternative_2"><input type="text"
+							class="form-control" value="Трускавець"></li>
+						<li id="alternative_3"><input type="text"
+							class="form-control" value="Кам'янець подільський"></li>
+					</ul>
 
-			</div>
+				</div>
 
-			<div class="border">Etap2</div>
+				<div class="border">Etap2</div>
 
-			<div id="initExpertsDiv">
-				Enter amount of expert <input style="width: 36px; height: 20px">
-				<button type="button" class="btn btn-success" onclick="addExpert()">+</button>
-				<button type="button" class="btn btn-danger">-</button>
-				<ul class="experts">
-				</ul>
-			</div>
+				<div id="initExpertsDiv">
+					Enter amount of expert <input style="width: 36px; height: 20px">
+					<button type="button" class="btn btn-success" onclick="addExpert()">+</button>
+					<button type="button" class="btn btn-danger">-</button>
+					<ul class="experts">
+					</ul>
+				</div>
 
-			<div class="border">Etap3</div>
+				<div class="border">Etap3</div>
 
-			<div id="etap3Container" class="container">
-				<button type="button" class="btn btn-primary" onclick="process()">Execute</button>
-			</div>
+				<div id="etap3Container" class="container">
+					<button type="button" class="btn btn-primary">Execute</button>
+				</div>
 
-			<div class="border">Etap4</div>
+				<div class="border">Etap4</div>
 		</div>
 	</div>
 

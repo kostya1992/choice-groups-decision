@@ -10,8 +10,9 @@ function init() {
 
 function addAlternative() {
 	$("ul.alternatives").append(
-			'<li id="alternative_' + alternativeIndex++ + '">Item '
-					+ alternativeIndex + '</li>');
+			'<li id="alternative_' + alternativeIndex++
+					+ '" ><input type="text"class="form-control" value="Item ' + alternativeIndex
+					+ '"/></li>');
 }
 function addExpert() {
 	$("ul.experts")
