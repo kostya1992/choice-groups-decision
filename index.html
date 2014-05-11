@@ -17,63 +17,77 @@
 </head>
 <body onload="init()">
 	<div id="msg"></div>
-	<h2 align="center">Відомі алгоритми прийняття колективних рішень
-		та ранжування, нормування, визначення середнього.</h2>
-	<div id="main" class="bg-success container">
-		<nav class="dl-horizontal bg-danger">
+	<h4 align="center">Відомі алгоритми прийняття колективних рішень
+		та ранжування, нормування, визначення середнього.</h4>
+	<div id="main" class="container ua-bg">
+		<nav class="container">
 			<button type="button" class="btn btn-primary">Primary</button>
 			<button type="button" class="btn btn-success">Success</button>
 			<button type="button" class="btn btn-info">Info</button>
 		</nav>
-		<div id="workingArea" class="container">
-			<p class="text-primary">
+		<div id="workingArea" class="container ua-bg">
+			<p style="color: silver;">
 				<a id="kondorse" style="cursor: pointer"> Метод Кондорсе</a><br>
 				Метод Борда<br> Правило Копленда<br> Правило Сімпсона
 			</p>
-			<h2 class="text-info" align="center">
-				Куди поїхати відпочивати в межах України?
-				</h1>
-				<div class="border">Etap1</div>
+			<h2 style="color: silver;" align="center">Куди поїхати
+				відпочивати в межах України?</h2>
+			<div class="border">Etap1</div>
 
-				<div id="initAlternativesDiv">
-					Enter amount of alternatives <input
-						style="width: 36px; height: 20px">
-					<button type="button" class="btn btn-success"
-						onclick="addAlternative()">+</button>
-					<button type="button" class="btn btn-danger">-</button>
+			<div id="initAlternativesDiv">
+				Enter amount of alternatives <input
+					style="width: 36px; height: 20px">
+				<button type="button" class="btn btn-success"
+					onclick="addAlternative()">+</button>
 
-					<ul id="sourceAlternatives" class="alternatives">
-						<li id="alternative_0"><input type="text"
-							class="form-control" value="Львів"></li>
-						<li id="alternative_1"><input type="text"
-							class="form-control" value="Карпати"></li>
-						<li id="alternative_2"><input type="text"
-							class="form-control" value="Трускавець"></li>
-						<li id="alternative_3"><input type="text"
-							class="form-control" value="Кам'янець подільський"></li>
-					</ul>
+				<ul id="sourceAlternatives" class="alternatives">
+					<li id="alternative_0"><input type="text" class="form-control"
+						value="Львів"></li>
+					<li id="alternative_1"><input type="text" class="form-control"
+						value="Карпати"></li>
+					<li id="alternative_2"><input type="text" class="form-control"
+						value="Трускавець"></li>
+					<li id="alternative_3"><input type="text" class="form-control"
+						value="Кам'янець подільський"></li>
+				</ul>
 
-				</div>
+			</div>
 
-				<div class="border">Etap2</div>
+			<div class="border">Etap2</div>
 
-				<div id="initExpertsDiv">
-					Enter amount of expert <input style="width: 36px; height: 20px">
-					<button type="button" class="btn btn-success" onclick="addExpert()">+</button>
-					<button type="button" class="btn btn-danger">-</button>
-					<ul class="experts">
-					</ul>
-				</div>
+			<div id="initExpertsDiv">
+				Enter amount of expert <input style="width: 36px; height: 20px">
+				<button type="button" class="btn btn-success" onclick="addExpert()">+</button>
+				<ul class="experts">
+				</ul>
+			</div>
 
-				<div class="border">Etap3</div>
+			<div class="border">Etap3</div>
 
-				<div id="etap3Container" class="container">
-					<button type="button" class="btn btn-primary">Execute</button>
-				</div>
+			<div id="etap3Container" class="container">
+				<button type="button" class="btn btn-primary">Execute</button>
+			</div>
 
-				<div class="border">Etap4</div>
+			<div class="border">Etap4</div>
+			<table class="table table-condensed">
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</table>
 		</div>
 	</div>
-
 </body>
 </html>
