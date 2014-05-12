@@ -63,35 +63,65 @@ function getKoplendaResult(alternatives) {
 	// TODO implement Method Koplenda
 	return alternatives[0];
 }
-function getKonsorseResult(alternatives) {
-	var keys = _.keys(alternatives[0]);
-	console.log(keys);
-	var pairs = [];
-	makePairs(keys, pairs);
-	console.log("all possible pairs - " + JSON.stringify(pairs));
-	var newArr=[];
-	for ( var i = 0; i < alternatives.length; i++) {
-		var k=1;
-		newArr[i]=[];
-		for ( var key in alternatives[i] ) {
-			newArr[i][key]=k;
-			k++;
-		}
-	}
-	var comparison = [];
-	_.each(pairs, function(pair) {
-		var res = compare(pair[0], pair[1], newArr);
-		comparison.push(res);
-		//console.log(JSON.stringify(res));
-	});
-	console.log(comparison);
-	for ( var key in comparison) {
-		for ( var k in comparison[key]) {
-			console.log(key+" "+k+" "+comparison[key][k]);	
-		}
-	}
-	return comparison;
+function getKondorseResult(alternatives) {
+    var pairs = [];
+    makePairs(alternatives[0], pairs);
+    console.log("all possible pairs - " + JSON.stringify(pairs));
+    var comparisonResult = [];
+    var comparisonArr = [];
+    _.each(pairs, function (pair) {
+        var comparedGroup = compare(pair[0], pair[1], alternatives);
+        if(!_.has(comparedGroup,pair[0])){
+            var obj = {};
+            obj[pair[0]]=0;
+            _.extend(comparedGroup,obj);
+        }
+        if(!_.has(comparedGroup,pair[1])){
+            var obj = {};
+            obj[pair[1]]=0;
+            _.extend(comparedGroup,obj);
+        }
+        comparisonResult.push(comparedGroup);
+        var sortedPairs = _.sortBy(_.pairs(comparedGroup), function (pair) {
+            return -1 * pair[1];
+        });
+        comparisonArr.push([sortedPairs[0][0], sortedPairs[1][0]]);
+    });
+    console.log("Comparison result by Kondorse : " + JSON.stringify(comparisonResult));
+    var rating = [];
+    rating.push(comparisonArr[0][0]);
+    rating.push(comparisonArr[0][1]);
+    kondorseBackward(_.rest(comparisonArr), comparisonArr[0], rating);
+    kondorseForward(_.rest(comparisonArr), comparisonArr[0], rating);
+    alert("The winner is " + $("#"+rating[0]+" input").val());
 }
+
+function kondorseBackward(comparisonArr, pair, rating) {
+//    console.log("backward =" + JSON.stringify(comparisonArr));
+    var first = pair[0];
+    var betterPair = _.find(comparisonArr, function (value) {
+        return value[1] == first;
+    });
+    if (betterPair != undefined) {
+        rating.splice(_.indexOf(rating, first), 0, betterPair[0]);
+        var rest = _.without(comparisonArr, betterPair);
+        kondorseBackward(rest, betterPair, rating);
+    }
+}
+
+function kondorseForward(comparisonArr, pair, rating) {
+//    console.log("forward=" + JSON.stringify(comparisonArr));
+    var last = pair[1];
+    var worsePair = _.find(comparisonArr, function (value) {
+        return value[0] == last;
+    });
+    if (worsePair != undefined) {
+        rating.push(worsePair[1]);
+        var rest = _.without(comparisonArr, worsePair);
+        kondorseForward(rest, worsePair, rating);
+    }
+}
+
 function arraySize(arr) {
 	var size = 0;
 	for (key in arr) {
@@ -116,44 +146,42 @@ function sortAssosiationArrayDesc(arr) {
 
 
 function compare(alt1, alt2, results) {
-	return _.countBy(results, function(vote) {
-		return vote[alt1] <= vote[alt2] ? alt1 : alt2;
-	});
+    return _.countBy(results, function (vote) {
+        return _.indexOf(vote,alt1) <= _.indexOf(vote,alt2) ? alt1 : alt2;
+    });
 }
 
 function makePairs(someArray, storage) {
-	var rest = _.rest(someArray, 1);
-	for (var i = 0; i < rest.length; i++) {
-		storage.push([ someArray[0], rest[i] ]);
-	}
-	if (rest.length != 0)
-		makePairs(rest, storage);
+    var rest = _.rest(someArray, 1);
+    for (var i = 0; i < rest.length; i++) {
+        storage.push([ someArray[0], rest[i] ]);
+    }
+    if (rest.length != 0)
+        makePairs(rest, storage);
 }
 
-$(function() {
-	$("#kondorse").on("click", function() {
-		var voteResults = [ {
-			alternative_0 :"0",
-			alternative_2: "2",
-			alternative_1 :"1"
-		}, {
-			alternative_1 :"1",
-			alternative_0: "0",
-			alternative_2 :"2"
-		}, {
-			alternative_2 :"2",
-			alternative_1: "1",
-			alternative_0 :"0"
-		}, {
-			alternative_0 :"0",
-			alternative_1: "1",
-			alternative_2 :"2"
-		}];
-		var result=getKonsorseResult(voteResults);
-		alert("People prefer:" + JSON.stringify(result));
-	});
+$(function () {
+    $("#kondorse").on("click", function () {
+        var voteResults = [];
+        if ($(".experts") != undefined) {
+            $(".experts > li").each(function (index) {
+                var alternativesSelector = "#alternativesOfEpert" + index + " li";
+                var alternativesList = [];
+                $(".experts").find(alternativesSelector).each(function () {
+                    alternativesList.push($(this).attr("id"));
+                })
+                voteResults.push(alternativesList);
+            })
+        }
+        console.log(JSON.stringify(voteResults));
+        if (voteResults.length != 0) {
+            getKondorseResult(voteResults);
+        } else {
+            alert("Vote results aren't specified");
+        }
+    });
 });
-$(function() {
+$(function () {
 	$("#borda").on("click", function() {
 		var voteResults = [ {
 			alternative_0 :"0",
@@ -177,7 +205,7 @@ $(function() {
 				var sort=sortAssosiationArrayDesc(result);
 					console.log(sort);
 					console.log("borda:");
-					
+
 		var result=getBordaResult(voteResults);
 console.log(result);
 		var sort=sortAssosiationArrayDesc(result);
