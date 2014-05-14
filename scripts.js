@@ -2,17 +2,20 @@
  * 
  */
 function init() {
-	window.alternativeIndex = 0;
+	window.alternativeIndex = 4;
 	window.expertIndex = 0;
 	window.expertFormHeight = 0;
 	window.addExpertFirstTime = true;
 }
 
 function addAlternative() {
-	$("ul.alternatives").append(
+	$("ul.sourceAlternatives").append(
 			'<li id="alternative_' + alternativeIndex++
 					+ '" ><input type="text"class="form-control" value="Item ' + alternativeIndex
 					+ '"/></li>');
+	$("ul.alternatives").append(
+			'<li id="alternative_' + alternativeIndex
+					+ '" >Item ' + alternativeIndex+'</li>');
 }
 function addExpert() {
 	$("ul.experts")
@@ -31,9 +34,14 @@ function addExpert() {
 	if (addExpertFirstTime) {
 		expertFormHeight = $('#expertForm_0').height();
 	}
-	$('#alternativesOfEpert' + expertIndex + ' ul').append(
-			$('#sourceAlternatives li').clone());
-
+	var cloned = $('#sourceAlternatives').clone();
+	cloned.find('li').each(function(){
+	     inputEl = $(this).children().first();
+	     var liCloned=$(this).clone();
+	     liCloned.empty();
+	     liCloned.append(inputEl.val());
+	 	$('#alternativesOfEpert' + expertIndex + ' ul').append(liCloned);
+	   });
 	$(".sortable").sortable();
 	expertIndex++;
 }

@@ -16,20 +16,20 @@ function process() {
 	var s = '';
 	for (var i = 0; i < result.length; i++) {
 		for (key in result[i]) {
-			s += key + ' ' + result[i][key] + " | ";
+			s += key + ' - ' + result[i][key][0] +" - "+result[i][key][1]+ " | ";
 		}
 		s+="\n";
 	}
-
+    alert(s);
 	console.log(s);
 }
 
 function getAllResults(alternatives) {
 	var resultAllMethods = [];
 	var bordaResult = getBordaResult(alternatives);
-	resultAllMethods[0] = sortAssosiationArrayDesc(bordaResult);
-	var kondorseResult = getKonsorseResult(alternatives);
-	 resultAllMethods[1] = sortAssosiationArrayDesc(kondorseResult);
+	resultAllMethods[0] =convertResult(bordaResult, alternatives);// sortAssosiationArrayDesc(bordaResult);
+	//var kondorseResult = getKondorseResult(alternatives);
+//	 resultAllMethods[1] = sortAssosiationArrayDesc(kondorseResult);
 	// add all methods
 	return resultAllMethods;
 }
@@ -38,10 +38,9 @@ function convertResult(result, alternatives) {
 	if (alternatives.length > 0) {
 		var sortResult = sortAssosiationArrayDesc(result);
 		for (key in sortResult) {
-			resultMethod.push(alternatives[0][key]);
+			resultMethod.push([alternatives[0][key],sortResult[key]]);
 		}
 	}
-	console.log(sortResult);
 	return resultMethod;
 }
 function getBordaResult(alternatives) {
