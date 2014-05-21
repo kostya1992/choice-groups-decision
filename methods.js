@@ -93,14 +93,19 @@ function getSimpsonsResult(alternatives) {
 	for (var i = 0; i < compairs.length; i++) {
 		var currentPair = compairs[i];
 		var pair = _.findWhere(compairs, [ currentPair[1], currentPair[0] ]);
-		if (typeof(pair) != 'undefined') {
+		if (typeof (pair) != 'undefined') {
 			compairs.splice(i, 1);
 		}
 	}
-	for (var i = 0; i < compairs.length; i++) {
-		var tmp = compairs[i];
-		console.log(tmp[0] + " vs" + tmp[1] + " value = " + tmp[2]);
-	}
+//	for (var i = 0; i < compairs.length; i++) {
+//		var tmp = compairs[i];
+//		console.log(tmp[0] + " vs" + tmp[1] + " value = " + tmp[2]);
+//	}
+	var best = _.max(compairs, function(compairs) {
+		return compairs[2];
+	});
+	alert(best[0]);
+
 	// alert(JSON.stringify(alternatives))
 	// alert("all possible pairs - " + JSON.stringify(pairs));
 }
