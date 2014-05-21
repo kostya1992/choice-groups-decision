@@ -66,18 +66,43 @@ function getKoplendaResult(alternatives) {
 
 function getSimpsonsResult(alternatives) {
 	var pairs = [];
+	var alters = alternatives[0];
 	makeSimpsonPairs(alternatives[0], pairs);
 	for (var i = 0; i < alternatives.length; i++) {
 		var tmp = alternatives[i];
-		console.log("Current expert decision = " + tmp);
+		// console.log("Current expert decision = " + tmp);
 		var countPair = countSimpson(tmp, pairs);
 		var tmpPair = _.findWhere(pairs, [ countPair[0], countPair[1] ]);
-		var index = _.indexOf(pairs,tmp);
+		var index = _.indexOf(pairs, tmp);
 		tmpPair[2] = countPair[2];
 		pairs[index] = countPair;
 	}
+
+	var compairs = [];
+	var count = 0;
+	for (var i = 0; i < pairs.length; i++) {
+		var currentPair = pairs[i];
+		var pair = _.findWhere(pairs, [ currentPair[1], currentPair[0] ]);
+		console.log(currentPair + " vs " + pair);
+		if (currentPair[2] <= pair[2]) {
+			compairs[count] = currentPair;
+			count++;
+		}
+
+	}
+	for (var i = 0; i < compairs.length; i++) {
+		var currentPair = compairs[i];
+		var pair = _.findWhere(compairs, [ currentPair[1], currentPair[0] ]);
+		if (typeof(pair) != 'undefined') {
+			compairs.splice(i, 1);
+		}
+	}
+	for (var i = 0; i < compairs.length; i++) {
+		var tmp = compairs[i];
+		console.log(tmp[0] + " vs" + tmp[1] + " value = " + tmp[2]);
+	}
 	// alert(JSON.stringify(alternatives))
-	 alert("all possible pairs - " + JSON.stringify(pairs));
+	// alert("all possible pairs - " + JSON.stringify(pairs));
 }
 
 function countSimpson(tmp, pairs) {
@@ -85,7 +110,7 @@ function countSimpson(tmp, pairs) {
 	for (var i = 0; i < tmp.length; i++) {
 		for (var j = 0; j < tmp.length; j++) {
 			if (tmp[i] != tmp[j]) {
-				console.log("Current pair = " + tmp[i] + " vs " + tmp[j]);
+				// console.log("Current pair = " + tmp[i] + " vs " + tmp[j]);
 				var indexI = _.indexOf(tmp, tmp[i]);
 				var indexJ = _.indexOf(tmp, tmp[j]);
 				tmpPair = _.findWhere(pairs, [ tmp[i], tmp[j] ]);
@@ -93,8 +118,8 @@ function countSimpson(tmp, pairs) {
 					tmpPair = _.findWhere(pairs, [ tmp[i], tmp[j] ]);
 					tmpPair[2]++;
 				}
-				console.log("Current pair in PAIRS = " + tmpPair[0] + " vs "
-						+ tmpPair[1] + "; value = " + tmpPair[2]);
+				// console.log("Current pair in PAIRS = " + tmpPair[0] + " vs "
+				// + tmpPair[1] + "; value = " + tmpPair[2]);
 			}
 		}
 	}
