@@ -10,12 +10,12 @@ function init() {
 
 function addAlternative() {
 	$("ul.sourceAlternatives").append(
-			'<li id="alternative_' + alternativeIndex++
-					+ '" ><input type="text"class="form-control" value="Item '
-					+ alternativeIndex + '"/></li>');
+			'<li id="alternative_' + alternativeIndex
+					+ '" class="form-inline" ><input type="text"class="form-control" value="Item '
+					+ alternativeIndex + '"/><button type="button" id="del_alt_' + alternativeIndex+'" class="btn btn-danger btn-xs"  onclick="deleteAlternative('+alternativeIndex+')">X</button></li>');
 	$("ul.alternatives").append(
 			'<li id="alternative_' + alternativeIndex + '" >Item '
-					+ alternativeIndex + '</li>');
+					+ alternativeIndex++ + '</li>');
 }
 
 function addAlternatives() {
@@ -40,7 +40,7 @@ function addExpert() {
 							+ expertIndex
 							+ '" class="form-control" onclick="expand('
 							+ expertIndex
-							+ ')"> Expand</label><div id="alternativesOfEpert'
+							+ ')"> Expand</label><button type="button" class="btn btn-danger btn-xs" onclick="deleteExpert('+expertIndex+')">X</button><div id="alternativesOfEpert'
 							+ expertIndex
 							+ '" class="form-control" style="display: none;"><ul name="alternatives" class="sortable alternatives"></ul></div></form></li>');
 	if (addExpertFirstTime) {
@@ -86,6 +86,14 @@ function expand(expertIndex) {
 		form.height(expertFormHeight);
 	}
 
+}
+function deleteAlternative(index){
+	var idForDelte="alternative_"+index;
+	document.getElementById(idForDelte).remove();
+}
+function deleteExpert(index){
+	var idForDelte="expert_"+index;
+	document.getElementById(idForDelte).remove();
 }
 
 function msg(text) {

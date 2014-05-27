@@ -123,3 +123,9 @@ body {
 	background-image: linear-gradient(to bottom, #0851C7 0%, #66D7E8 35%, #FFFF99 76%, #DEDE78
 		100%);
 }
+#sourceAlternatives input{
+	width: 280px;
+}
+.form-inline,.btn{
+    margin: 3px;
+}
