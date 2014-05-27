@@ -42,14 +42,16 @@
 					onclick="addAlternatives()">+</button>
 
 				<ul id="sourceAlternatives" class="sourceAlternatives">
-					<li id="alternative_0"><input type="text" class="form-control"
-						value="Львів"></li>
-					<li id="alternative_1"><input type="text" class="form-control"
-						value="Карпати"></li>
-					<li id="alternative_2"><input type="text" class="form-control"
-						value="Трускавець"></li>
-					<li id="alternative_3"><input type="text" class="form-control"
-						value="Кам'янець подільський"></li>
+					<li id="alternative_0" class="form-inline">
+					<input type="text" class="form-control"
+						value="Львів"/><button type="button" class="btn btn-danger btn-xs" onclick="deleteAlternative(0)">X</button></li>
+					<li id="alternative_1" class="form-inline">
+					<input type="text" class="form-control"
+						value="Карпати"/><button type="button" class="btn btn-danger btn-xs" onclick="deleteAlternative(1)">X</button></li>
+					<li id="alternative_2" class="form-inline"><input type="text" class="form-control"
+						value="Трускавець"/><button type="button" class="btn btn-danger btn-xs" onclick="deleteAlternative(2)">X</button></li>
+					<li id="alternative_3" class="form-inline"><input type="text" class="form-control"
+						value="Кам'янець подільський"/><button type="button" class="btn btn-danger btn-xs" onclick="deleteAlternative(3)">X</button></li>
 				</ul>
 
 			</div>
