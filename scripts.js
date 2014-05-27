@@ -11,12 +11,24 @@ function init() {
 function addAlternative() {
 	$("ul.sourceAlternatives").append(
 			'<li id="alternative_' + alternativeIndex++
-					+ '" ><input type="text"class="form-control" value="Item ' + alternativeIndex
-					+ '"/></li>');
+					+ '" ><input type="text"class="form-control" value="Item '
+					+ alternativeIndex + '"/></li>');
 	$("ul.alternatives").append(
-			'<li id="alternative_' + alternativeIndex
-					+ '" >Item ' + alternativeIndex+'</li>');
+			'<li id="alternative_' + alternativeIndex + '" >Item '
+					+ alternativeIndex + '</li>');
 }
+
+function addAlternatives() {
+	var counter = $("#addAltAmount").val();
+	if (counter == "") {
+		addAlternative();
+	} else {
+		for (var i = 0; i < counter; i++) {
+			addAlternative();
+		}
+	}
+}
+
 function addExpert() {
 	$("ul.experts")
 			.append(
@@ -35,15 +47,26 @@ function addExpert() {
 		expertFormHeight = $('#expertForm_0').height();
 	}
 	var cloned = $('#sourceAlternatives').clone();
-	cloned.find('li').each(function(){
-	     inputEl = $(this).children().first();
-	     var liCloned=$(this).clone();
-	     liCloned.empty();
-	     liCloned.append(inputEl.val());
-	 	$('#alternativesOfEpert' + expertIndex + ' ul').append(liCloned);
-	   });
+	cloned.find('li').each(function() {
+		inputEl = $(this).children().first();
+		var liCloned = $(this).clone();
+		liCloned.empty();
+		liCloned.append(inputEl.val());
+		$('#alternativesOfEpert' + expertIndex + ' ul').append(liCloned);
+	});
 	$(".sortable").sortable();
 	expertIndex++;
+}
+
+function addExperts() {
+	var counter = $("#addExpAmount").val();
+	if (counter == "") {
+		addExpert();
+	} else {
+		for (var i = 0; i < counter; i++) {
+			addExpert();
+		}
+	}
 }
 
 // function for sort list

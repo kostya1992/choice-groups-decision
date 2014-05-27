@@ -36,10 +36,10 @@
 			<div class="border">Etap1</div>
 
 			<div id="initAlternativesDiv">
-				Enter amount of alternatives <input
-					style="width: 36px; height: 20px">
+				Enter amount of alternatives <input id="addAltAmount" type="number" min="1" 
+					style="width: 46px; height: 25px">
 				<button type="button" class="btn btn-success"
-					onclick="addAlternative()">+</button>
+					onclick="addAlternatives()">+</button>
 
 				<ul id="sourceAlternatives" class="sourceAlternatives">
 					<li id="alternative_0"><input type="text" class="form-control"
@@ -57,8 +57,8 @@
 			<div class="border">Etap2</div>
 
 			<div id="initExpertsDiv">
-				Enter amount of expert <input style="width: 36px; height: 20px">
-				<button type="button" class="btn btn-success" onclick="addExpert()">+</button>
+				Enter amount of expert <input id="addExpAmount" type="number" min="1" style="width: 46px; height: 25px">
+				<button type="button" class="btn btn-success" onclick="addExperts()">+</button>
 				<ul class="experts">
 				</ul>
 			</div>
@@ -69,25 +69,6 @@
 				<button type="button" class="btn btn-primary" onclick="process()">Execute</button>
 			</div>
 
-			<div class="border">Etap4</div>
-			<table class="table table-condensed">
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-			</table>
 		</div>
 	</div>
 </body>
