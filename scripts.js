@@ -6,13 +6,22 @@ function init() {
 	window.expertIndex = 0;
 	window.expertFormHeight = 0;
 	window.addExpertFirstTime = true;
+	window.alternativesCompleted = false;
+	blockExperts();
+	$('#resultButton').prop('disabled', true);
 }
 
 function addAlternative() {
-	$("ul.sourceAlternatives").append(
-			'<li id="alternative_' + alternativeIndex
-					+ '" class="form-inline" ><input type="text"class="form-control" value="Item '
-					+ alternativeIndex + '"/><button type="button" id="del_alt_' + alternativeIndex+'" class="btn btn-danger btn-xs"  onclick="deleteAlternative('+alternativeIndex+')">X</button></li>');
+	$("ul.sourceAlternatives")
+			.append(
+					'<li id="alternative_'
+							+ alternativeIndex
+							+ '" class="form-inline" ><input type="text"class="form-control" value="Item '
+							+ alternativeIndex
+							+ '"/><button type="button" id="del_alt_'
+							+ alternativeIndex
+							+ '" class="btn btn-danger btn-xs"  onclick="deleteAlternative('
+							+ alternativeIndex + ')">X</button></li>');
 	$("ul.alternatives").append(
 			'<li id="alternative_' + alternativeIndex + '" >Item '
 					+ alternativeIndex++ + '</li>');
@@ -40,7 +49,9 @@ function addExpert() {
 							+ expertIndex
 							+ '" class="form-control" onclick="expand('
 							+ expertIndex
-							+ ')"> Expand</label><button type="button" class="btn btn-danger btn-xs" onclick="deleteExpert('+expertIndex+')">X</button><div id="alternativesOfEpert'
+							+ ')"> Expand</label><button type="button" class="btn btn-danger btn-xs" onclick="deleteExpert('
+							+ expertIndex
+							+ ')">X</button><div id="alternativesOfEpert'
 							+ expertIndex
 							+ '" class="form-control" style="display: none;"><ul name="alternatives" class="sortable alternatives"></ul></div></form></li>');
 	if (addExpertFirstTime) {
@@ -78,21 +89,21 @@ function expand(expertIndex) {
 	var div = $('#alternativesOfEpert' + expertIndex);
 	var form = $('#expertForm_' + expertIndex);
 	if (div.css('display') == 'none') {
-		div.show('slow');
+		div.show('fast');
 		var alternLength = $('#sourceAlternatives li').length;
 		form.height(form.height() + (alternLength * 28));
 	} else {
-		div.hide('slow');
+		div.hide('fast');
 		form.height(expertFormHeight);
 	}
 
 }
-function deleteAlternative(index){
-	var idForDelte="alternative_"+index;
+function deleteAlternative(index) {
+	var idForDelte = "alternative_" + index;
 	document.getElementById(idForDelte).remove();
 }
-function deleteExpert(index){
-	var idForDelte="expert_"+index;
+function deleteExpert(index) {
+	var idForDelte = "expert_" + index;
 	document.getElementById(idForDelte).remove();
 }
 
@@ -100,4 +111,39 @@ function msg(text) {
 	var div = $("#msg");
 	div.text(text);
 	div.show('slow').delay(4000).fadeOut();
+}
+
+function blockAlternatives() {
+	if (alternativesCompleted) {
+		unBlockAlternatives();
+		blockExperts();
+		alternativesCompleted = false;
+		$('#blockerButton').attr("class", "btn btn-info border");
+		$('#blockerButton').text("Alternatives chosen");
+		$('#expertsList').empty();
+		$('#resultButton').prop('disabled', true);
+	} else {
+		$('#initAlternativesDiv *').prop('disabled', true);
+		$('#initAlternativesDivBlocker').addClass("blocker");
+		unBlockExperts();
+		alternativesCompleted = true;
+		$('#blockerButton').attr("class", "btn border btn-info blockerButton");
+		$('#blockerButton')
+				.text(
+						"Return to the alternatives choosing? All experts would be removed.");
+		addExpert();
+		$('#resultButton').prop('disabled', false);
+	}
+}
+function unBlockAlternatives() {
+	$('#initAlternativesDiv *').prop('disabled', false);
+	$('#initAlternativesDivBlocker').removeClass("blocker");
+}
+function blockExperts() {
+	$('#initExpertsDiv *').prop('disabled', true);
+	$('#initExpertsDivBlocker').addClass("blocker");
+}
+function unBlockExperts() {
+	$('#initExpertsDiv *').prop('disabled', false);
+	$('#initExpertsDivBlocker').removeClass("blocker");
 }

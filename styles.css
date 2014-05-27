@@ -11,7 +11,7 @@ body {
 }
 
 #main {
-	margin: 2% 2% 2% 2%;
+	margin: 0% 2% 2% 2%;
 	width: 96%;
 	padding: 2% 2% 2% 2%;
 	border-radius: 1px 11px 1px 11px;
@@ -30,11 +30,12 @@ body {
 #msg {
 	position: fixed;
 	right: 1px;
-	top: 40%;
+	top: 20%;
 	height: 70px;
 	width: 260px;
 	background-color: silver;
 	display: none;
+	z-index: 100;
 }
 
 #initializationDiv {
@@ -84,36 +85,20 @@ body {
 .container {
 	float: left;
 	padding: 3px;
+	position: relative;
 }
 
 .border {
-	class: .bg-success;
-	margin-top: 15;
-	margin-bottom: 15;
-	margin-left: 5;
-	margin-right: 5;
-	padding-left: 30;
-	border: black solid 1;
-	height: 30px;
-	border-radius: 11px 0px 0px 11px;
 	float: left;
 	width: 100%;
-	border: black solid 1;
-	background-image: -webkit-gradient(linear, left top, right bottom, color-stop(0.15,
-		#F7F7F7), color-stop(1, #4EC97B));
-	background-image: -o-linear-gradient(right bottom, #F7F7F7 15%, #4EC97B 100%);
-	background-image: -moz-linear-gradient(right bottom, #F7F7F7 15%, #4EC97B 100%);
-	background-image: -webkit-linear-gradient(right bottom, #F7F7F7 15%, #4EC97B 100%);
-	background-image: -ms-linear-gradient(right bottom, #F7F7F7 15%, #4EC97B 100%);
-	background-image: linear-gradient(to right bottom, #F7F7F7 15%, #4EC97B 100%);
 }
 
 .ua-bg {
 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #0851C7),
 		color-stop(0.35, #66D7E8), color-stop(0.76, #FFFF99),
 		color-stop(1, #F5F50C));
-	background-image: -o-linear-gradient(bottom, #0851C7 90%, #66D7E8 35%, #FFFF99 76%, #F5F50C
-		100%);
+	background-image: -o-linear-gradient(bottom, #0851C7 90%, #66D7E8 35%, #FFFF99 76%,
+		#F5F50C 100%);
 	background-image: -moz-linear-gradient(bottom, #0851C7 0%, #66D7E8 35%, #FFFF99 76%,
 		#F5F50C 100%);
 	background-image: -webkit-linear-gradient(bottom, #0851C7 0%, #66D7E8 35%, #FFFF99 76%,
@@ -122,6 +107,31 @@ body {
 		#F5F50C 100%);
 	background-image: linear-gradient(to bottom, #0851C7 0%, #66D7E8 35%, #FFFF99 76%, #DEDE78
 		100%);
+}
+#sourceAlternatives input{
+	width: 280px;
+}
+.form-inline,.btn{
+    margin: 3px;
+}
+
+.blocker {
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #E3E3AD),
+		color-stop(1, #ECFA82));
+	background-image: -o-linear-gradient(bottom, #E3E3AD 0%, #ECFA82 100%);
+	background-image: -moz-linear-gradient(bottom, #E3E3AD 0%, #ECFA82 100%);
+	background-image: -webkit-linear-gradient(bottom, #E3E3AD 0%, #ECFA82 100%);
+	background-image: -ms-linear-gradient(bottom, #E3E3AD 0%, #ECFA82 100%);
+	background-image: linear-gradient(to bottom, #E3E3AD 0%, #ECFA82 100%);
+	width: 100%;
+	opacity: 0.5;
+}
+
+.blockerButton {
+	background-color:yellow;
+	width: 100%;
+}
+
 }
 #sourceAlternatives input{
 	width: 280px;
