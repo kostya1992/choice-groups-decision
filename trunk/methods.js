@@ -1,55 +1,35 @@
 // process by all methods
 function process() {
-	var experts = document.getElementsByName("alternatives");
-	var alternatives = [];
-	var childNodes = [];
-	for (var i = 0; i < experts.length; i++) {
-		alternatives[i] = [];
-		childNodes = experts[i].getElementsByTagName('li');
-		for (var j = 0; j < childNodes.length; j++) {
-			alternatives[i][childNodes[j].id] = childNodes[j].innerText;
-		}
-	}
-	// result in double array[i][j]. i - methods, j - result by method (key -
-	// alternative, value count of points)
+	var alternatives = getAlternatives();
 	var result = getAllResults(alternatives);
-	var s = '';
-	for (var i = 0; i < result.length; i++) {
-		for (key in result[i]) {
-			s += key + ' - ' + result[i][key][0] + " - " + result[i][key][1]
-					+ " | ";
-		}
-		s += "\n";
-	}
-	alert(s);
-	console.log(s);
+	console.log(result);
+	alert(result);
 }
 
 function getAllResults(alternatives) {
+	console.log(JSON.stringify(alternatives));
+	var alternativesValue = [];
+	for ( var i = 0; i < 4; i++) {
+		alternativesValue["alternative_" + i] = $(
+				"#alternative_" + i + " input").val();
+	}
 	var resultAllMethods = [];
 	var bordaResult = getBordaResult(alternatives);
-	resultAllMethods[0] = convertResult(bordaResult, alternatives);// sortAssosiationArrayDesc(bordaResult);
-	// var kondorseResult = getKondorseResult(alternatives);
-	// resultAllMethods[1] = sortAssosiationArrayDesc(kondorseResult);
-	// add all methods
+	resultAllMethods[0] = alternativesValue[bordaResult[0]];
+	var kondorseResult = getKondorseResult(alternatives);
+	resultAllMethods[1] = alternativesValue[kondorseResult[0]];
+	var simpsonaResult = getSimpsonsResult(alternatives);
+	resultAllMethods[2] = alternativesValue[simpsonaResult[0]];
 	return resultAllMethods;
 }
-function convertResult(result, alternatives) {
-	var resultMethod = [];
-	if (alternatives.length > 0) {
-		var sortResult = sortAssosiationArrayDesc(result);
-		for (key in sortResult) {
-			resultMethod.push([ alternatives[0][key], sortResult[key] ]);
-		}
-	}
-	return resultMethod;
-}
+
 function getBordaResult(alternatives) {
 	var relultMark = [];
-	for (var i = 0; i < alternatives.length; i++) {
+	for ( var i = 0; i < alternatives.length; i++) {
 		var altCount = 1;
-		var alternativeCount = arraySize(alternatives[i]);
-		for (key in alternatives[i]) {
+		var alternativeCount = alternatives[i].length;
+		for ( var j = 0; j < alternativeCount; j++) {
+			var key = alternatives[i][j];
 			if (!relultMark.hasOwnProperty(key)) {
 				relultMark[key] = 0;
 			}
@@ -57,7 +37,7 @@ function getBordaResult(alternatives) {
 			altCount++;
 		}
 	}
-	return relultMark;
+	return sortAssosiationArrayDesc(relultMark);
 }
 function getKoplendaResult(alternatives) {
 	// TODO implement Method Koplenda
@@ -68,7 +48,7 @@ function getSimpsonsResult(alternatives) {
 	var pairs = [];
 	var alters = alternatives[0];
 	makeSimpsonPairs(alternatives[0], pairs);
-	for (var i = 0; i < alternatives.length; i++) {
+	for ( var i = 0; i < alternatives.length; i++) {
 		var tmp = alternatives[i];
 		// console.log("Current expert decision = " + tmp);
 		var countPair = countSimpson(tmp, pairs);
@@ -80,40 +60,34 @@ function getSimpsonsResult(alternatives) {
 
 	var compairs = [];
 	var count = 0;
-	for (var i = 0; i < pairs.length; i++) {
+	for ( var i = 0; i < pairs.length; i++) {
 		var currentPair = pairs[i];
 		var pair = _.findWhere(pairs, [ currentPair[1], currentPair[0] ]);
-		console.log(currentPair + " vs " + pair);
+		// console.log(currentPair + " vs " + pair);
 		if (currentPair[2] <= pair[2]) {
 			compairs[count] = currentPair;
 			count++;
 		}
 
 	}
-	for (var i = 0; i < compairs.length; i++) {
+	for ( var i = 0; i < compairs.length; i++) {
 		var currentPair = compairs[i];
 		var pair = _.findWhere(compairs, [ currentPair[1], currentPair[0] ]);
 		if (typeof (pair) != 'undefined') {
 			compairs.splice(i, 1);
 		}
 	}
-//	for (var i = 0; i < compairs.length; i++) {
-//		var tmp = compairs[i];
-//		console.log(tmp[0] + " vs" + tmp[1] + " value = " + tmp[2]);
-//	}
+
 	var best = _.max(compairs, function(compairs) {
 		return compairs[2];
 	});
-	alert(best[0]);
-
-	// alert(JSON.stringify(alternatives))
-	// alert("all possible pairs - " + JSON.stringify(pairs));
+	return best;
 }
 
 function countSimpson(tmp, pairs) {
-	var tmpPair;
-	for (var i = 0; i < tmp.length; i++) {
-		for (var j = 0; j < tmp.length; j++) {
+	var tmpPair = [];
+	for ( var i = 0; i < tmp.length; i++) {
+		for ( var j = 0; j < tmp.length; j++) {
 			if (tmp[i] != tmp[j]) {
 				// console.log("Current pair = " + tmp[i] + " vs " + tmp[j]);
 				var indexI = _.indexOf(tmp, tmp[i]);
@@ -131,12 +105,12 @@ function countSimpson(tmp, pairs) {
 	return tmpPair;
 }
 function makeSimpsonPairs(someArray, storage) {
-	for (var i = 0; i < someArray.length; i++) {
-		for (var j = 0; j < someArray.length; j++) {
+	for ( var i = 0; i < someArray.length; i++) {
+		for ( var j = 0; j < someArray.length; j++) {
 			storage.push([ someArray[i], someArray[j], 0 ]);
 		}
 	}
-	for (var i = 0; i < storage.length; i++) {
+	for ( var i = 0; i < storage.length; i++) {
 		var tmp = storage[i];
 		if (tmp[0] == tmp[1]) {
 			storage.splice(i, 1);
@@ -147,7 +121,7 @@ function makeSimpsonPairs(someArray, storage) {
 function getKondorseResult(alternatives) {
 	var pairs = [];
 	makePairs(alternatives[0], pairs);
-	console.log("all possible pairs - " + JSON.stringify(pairs));
+	// console.log("all possible pairs - " + JSON.stringify(pairs));
 	var comparisonResult = [];
 	var comparisonArr = [];
 	_.each(pairs, function(pair) {
@@ -168,14 +142,15 @@ function getKondorseResult(alternatives) {
 		});
 		comparisonArr.push([ sortedPairs[0][0], sortedPairs[1][0] ]);
 	});
-	console.log("Comparison result by Kondorse : "
-			+ JSON.stringify(comparisonResult));
+	// console.log("Comparison result by Kondorse : "
+	// + JSON.stringify(comparisonResult));
 	var rating = [];
 	rating.push(comparisonArr[0][0]);
 	rating.push(comparisonArr[0][1]);
 	kondorseBackward(_.rest(comparisonArr), comparisonArr[0], rating);
 	kondorseForward(_.rest(comparisonArr), comparisonArr[0], rating);
-	alert("The winner is " + $("#" + rating[0] + " input").val());
+	// alert("The winner is " + $("#" + rating[0] + " input").val());
+	return rating;
 }
 
 function kondorseBackward(comparisonArr, pair, rating) {
@@ -204,13 +179,6 @@ function kondorseForward(comparisonArr, pair, rating) {
 	}
 }
 
-function arraySize(arr) {
-	var size = 0;
-	for (key in arr) {
-		size++;
-	}
-	return size;
-}
 function sortAssosiationArrayDesc(arr) {
 	var sortedKeys = [];
 	var sortedObj = [];
@@ -221,7 +189,7 @@ function sortAssosiationArrayDesc(arr) {
 		return b[1] - a[1];
 	});
 	for ( var i in sortedKeys) {
-		sortedObj[sortedKeys[i][0]] = arr[sortedKeys[i][0]];
+		sortedObj.push(sortedKeys[i][0]);
 	}
 	return sortedObj;
 };
@@ -234,113 +202,23 @@ function compare(alt1, alt2, results) {
 
 function makePairs(someArray, storage) {
 	var rest = _.rest(someArray, 1);
-	for (var i = 0; i < rest.length; i++) {
+	for ( var i = 0; i < rest.length; i++) {
 		storage.push([ someArray[0], rest[i] ]);
 	}
 	if (rest.length != 0)
 		makePairs(rest, storage);
 }
-$(function() {
-	$("#simpson")
-			.on(
-					"click",
-					function() {
-						var voteResults = [];
-						if ($(".experts") != undefined) {
-							$(".experts > li")
-									.each(
-											function(index) {
-												var alternativesSelector = "#alternativesOfEpert"
-														+ index + " li";
-												var alternativesList = [];
-												$(".experts")
-														.find(
-																alternativesSelector)
-														.each(
-																function() {
-																	alternativesList
-																			.push($(
-																					this)
-																					.attr(
-																							"id"));
-																})
-												voteResults
-														.push(alternativesList);
-											})
-						}
-						console.log(JSON.stringify(voteResults));
-						if (voteResults.length != 0) {
-							getSimpsonsResult(voteResults);
-						} else {
-							alert("Vote results aren't specified");
-						}
-					});
-});
 
-$(function() {
-	$("#kondorse")
-			.on(
-					"click",
-					function() {
-						var voteResults = [];
-						if ($(".experts") != undefined) {
-							$(".experts > li")
-									.each(
-											function(index) {
-												var alternativesSelector = "#alternativesOfEpert"
-														+ index + " li";
-												var alternativesList = [];
-												$(".experts")
-														.find(
-																alternativesSelector)
-														.each(
-																function() {
-																	alternativesList
-																			.push($(
-																					this)
-																					.attr(
-																							"id"));
-																})
-												voteResults
-														.push(alternativesList);
-											})
-						}
-						console.log(JSON.stringify(voteResults));
-						if (voteResults.length != 0) {
-							getKondorseResult(voteResults);
-						} else {
-							alert("Vote results aren't specified");
-						}
-					});
-});
-$(function() {
-	$("#borda").on("click", function() {
-		var voteResults = [ {
-			alternative_0 : "0",
-			alternative_2 : "2",
-			alternative_1 : "1"
-		}, {
-			alternative_1 : "1",
-			alternative_0 : "0",
-			alternative_2 : "2"
-		}, {
-			alternative_2 : "2",
-			alternative_1 : "1",
-			alternative_0 : "0"
-		}, {
-			alternative_0 : "0",
-			alternative_1 : "1",
-			alternative_2 : "2"
-		} ];
-		var result = getKonsorseResult(voteResults);
-		console.log(result);
-		var sort = sortAssosiationArrayDesc(result);
-		console.log(sort);
-		console.log("borda:");
-
-		var result = getBordaResult(voteResults);
-		console.log(result);
-		var sort = sortAssosiationArrayDesc(result);
-		console.log(sort);
-	});
-});
+function getAlternatives() {
+	var voteResults = [];
+	if ($(".alternatives") != undefined) {
+		$(".alternatives").each(function() {
+			var alternativesList = [];
+			$(this).find("li").each(function(index) {
+				alternativesList.push($(this).attr("id"));
+			});
+			voteResults.push(alternativesList);
+		});
+	}
+	return voteResults;
+}
