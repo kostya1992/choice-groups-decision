@@ -9,7 +9,7 @@ function process() {
 function getAllResults(alternatives) {
 	console.log(JSON.stringify(alternatives));
 	var alternativesValue = [];
-	for ( var i = 0; i < 4; i++) {
+	for (var i = 0; i < 4; i++) {
 		alternativesValue["alternative_" + i] = $(
 				"#alternative_" + i + " input").val();
 	}
@@ -20,15 +20,41 @@ function getAllResults(alternatives) {
 	resultAllMethods[1] = alternativesValue[kondorseResult[0]];
 	var simpsonaResult = getSimpsonsResult(alternatives);
 	resultAllMethods[2] = alternativesValue[simpsonaResult[0]];
+	var koplandResult = getKoplandResult(alternatives);
+	resultAllMethods[3] = alternativesValue[koplandResult[0]];
 	return resultAllMethods;
+}
+
+function getKoplandResult(alternatives) {
+	var pairs = [];
+	makePairs(alternatives[0], pairs);
+	var alternativeMarkMap = {};
+	for (var i = 0; i < alternatives[0].length; i++) {
+		alternativeMarkMap[alternatives[0][i]] = 0 ;
+	}
+	for (var j = 0; j < alternatives.length; j++) {
+		var expert=alternatives[j];
+
+		for (var n = 0; n < pairs.length; n++) {
+			if (expert.indexOf(pairs[n][0]) > expert.indexOf(pairs[n][1])) {
+				alternativeMarkMap[pairs[n][0]] = alternativeMarkMap[pairs[n][0]] + 1;
+				alternativeMarkMap[pairs[n][1]] = alternativeMarkMap[pairs[n][1]] - 1;
+			} else if (expert.indexOf(pairs[n][0]) < expert.indexOf(pairs[n][1])) {
+				alternativeMarkMap[pairs[n][0]] = alternativeMarkMap[pairs[n][0]] - 1;
+				alternativeMarkMap[pairs[n][1]] = alternativeMarkMap[pairs[n][1]] + 1;
+			}
+		}
+	}
+	var sortedAlts=sortAssosiationArrayDesc(alternativeMarkMap);
+	return [sortedAlts[sortedAlts.length-1]];
 }
 
 function getBordaResult(alternatives) {
 	var relultMark = [];
-	for ( var i = 0; i < alternatives.length; i++) {
+	for (var i = 0; i < alternatives.length; i++) {
 		var altCount = 1;
 		var alternativeCount = alternatives[i].length;
-		for ( var j = 0; j < alternativeCount; j++) {
+		for (var j = 0; j < alternativeCount; j++) {
 			var key = alternatives[i][j];
 			if (!relultMark.hasOwnProperty(key)) {
 				relultMark[key] = 0;
@@ -48,7 +74,7 @@ function getSimpsonsResult(alternatives) {
 	var pairs = [];
 	var alters = alternatives[0];
 	makeSimpsonPairs(alternatives[0], pairs);
-	for ( var i = 0; i < alternatives.length; i++) {
+	for (var i = 0; i < alternatives.length; i++) {
 		var tmp = alternatives[i];
 		// console.log("Current expert decision = " + tmp);
 		var countPair = countSimpson(tmp, pairs);
@@ -60,7 +86,7 @@ function getSimpsonsResult(alternatives) {
 
 	var compairs = [];
 	var count = 0;
-	for ( var i = 0; i < pairs.length; i++) {
+	for (var i = 0; i < pairs.length; i++) {
 		var currentPair = pairs[i];
 		var pair = _.findWhere(pairs, [ currentPair[1], currentPair[0] ]);
 		// console.log(currentPair + " vs " + pair);
@@ -70,7 +96,7 @@ function getSimpsonsResult(alternatives) {
 		}
 
 	}
-	for ( var i = 0; i < compairs.length; i++) {
+	for (var i = 0; i < compairs.length; i++) {
 		var currentPair = compairs[i];
 		var pair = _.findWhere(compairs, [ currentPair[1], currentPair[0] ]);
 		if (typeof (pair) != 'undefined') {
@@ -86,8 +112,8 @@ function getSimpsonsResult(alternatives) {
 
 function countSimpson(tmp, pairs) {
 	var tmpPair = [];
-	for ( var i = 0; i < tmp.length; i++) {
-		for ( var j = 0; j < tmp.length; j++) {
+	for (var i = 0; i < tmp.length; i++) {
+		for (var j = 0; j < tmp.length; j++) {
 			if (tmp[i] != tmp[j]) {
 				// console.log("Current pair = " + tmp[i] + " vs " + tmp[j]);
 				var indexI = _.indexOf(tmp, tmp[i]);
@@ -105,12 +131,12 @@ function countSimpson(tmp, pairs) {
 	return tmpPair;
 }
 function makeSimpsonPairs(someArray, storage) {
-	for ( var i = 0; i < someArray.length; i++) {
-		for ( var j = 0; j < someArray.length; j++) {
+	for (var i = 0; i < someArray.length; i++) {
+		for (var j = 0; j < someArray.length; j++) {
 			storage.push([ someArray[i], someArray[j], 0 ]);
 		}
 	}
-	for ( var i = 0; i < storage.length; i++) {
+	for (var i = 0; i < storage.length; i++) {
 		var tmp = storage[i];
 		if (tmp[0] == tmp[1]) {
 			storage.splice(i, 1);
@@ -202,7 +228,7 @@ function compare(alt1, alt2, results) {
 
 function makePairs(someArray, storage) {
 	var rest = _.rest(someArray, 1);
-	for ( var i = 0; i < rest.length; i++) {
+	for (var i = 0; i < rest.length; i++) {
 		storage.push([ someArray[0], rest[i] ]);
 	}
 	if (rest.length != 0)
