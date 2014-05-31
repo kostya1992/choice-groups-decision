@@ -1,27 +1,44 @@
 // process by all methods
 function process() {
 	var alternatives = getAlternatives();
-	var result = getAllResults(alternatives);
-	console.log(result);
-	alert(result);
-}
-
-function getAllResults(alternatives) {
 	console.log(JSON.stringify(alternatives));
+	var result = getAllResults(alternatives);
 	var alternativesValue = [];
-	for (var i = 0; i < 4; i++) {
+	for ( var i = 0; i < 4; i++) {
 		alternativesValue["alternative_" + i] = $(
 				"#alternative_" + i + " input").val();
 	}
+	console.log(JSON.stringify(result));
+	var resultTable = "<table class='table table-bordered'>";
+	resultTable += "<tr><th>Метод Борда</th><th>Метод Кондорсе</th><th>Метод Сімпсона</th><th>Метод Копленда</th></tr>";
+	for ( var i = 0; i < result[0].length; i++) {
+		resultTable += "<tr>";
+		for ( var j = 0; j < 4; j++) {
+			if (i == 0 && j == 2) {
+				resultTable += "<td>" + alternativesValue[result[j]] + "</td>";
+			} else if (j == 2) {
+				resultTable += "<td></td>";
+			} else {
+				resultTable += "<td>" + alternativesValue[result[j][i]]
+						+ "</td>";
+			}
+		}
+		resultTable += "</tr>";
+	}
+	resultTable += "</table>";
+	$("#resultDiv").append(resultTable);
+}
+
+function getAllResults(alternatives) {
 	var resultAllMethods = [];
 	var bordaResult = getBordaResult(alternatives);
-	resultAllMethods[0] = alternativesValue[bordaResult[0]];
+	resultAllMethods[0] = bordaResult;
 	var kondorseResult = getKondorseResult(alternatives);
-	resultAllMethods[1] = alternativesValue[kondorseResult[0]];
+	resultAllMethods[1] = kondorseResult;
 	var simpsonaResult = getSimpsonsResult(alternatives);
-	resultAllMethods[2] = alternativesValue[simpsonaResult[0]];
+	resultAllMethods[2] = simpsonaResult[0][0];
 	var koplandResult = getKoplandResult(alternatives);
-	resultAllMethods[3] = alternativesValue[koplandResult[0]];
+	resultAllMethods[3] = koplandResult;
 	return resultAllMethods;
 }
 
@@ -29,32 +46,32 @@ function getKoplandResult(alternatives) {
 	var pairs = [];
 	makePairs(alternatives[0], pairs);
 	var alternativeMarkMap = {};
-	for (var i = 0; i < alternatives[0].length; i++) {
-		alternativeMarkMap[alternatives[0][i]] = 0 ;
+	for ( var i = 0; i < alternatives[0].length; i++) {
+		alternativeMarkMap[alternatives[0][i]] = 0;
 	}
-	for (var j = 0; j < alternatives.length; j++) {
-		var expert=alternatives[j];
-
-		for (var n = 0; n < pairs.length; n++) {
+	for ( var j = 0; j < alternatives.length; j++) {
+		var expert = alternatives[j];
+		for ( var n = 0; n < pairs.length; n++) {
 			if (expert.indexOf(pairs[n][0]) > expert.indexOf(pairs[n][1])) {
 				alternativeMarkMap[pairs[n][0]] = alternativeMarkMap[pairs[n][0]] + 1;
 				alternativeMarkMap[pairs[n][1]] = alternativeMarkMap[pairs[n][1]] - 1;
-			} else if (expert.indexOf(pairs[n][0]) < expert.indexOf(pairs[n][1])) {
+			} else if (expert.indexOf(pairs[n][0]) < expert
+					.indexOf(pairs[n][1])) {
 				alternativeMarkMap[pairs[n][0]] = alternativeMarkMap[pairs[n][0]] - 1;
 				alternativeMarkMap[pairs[n][1]] = alternativeMarkMap[pairs[n][1]] + 1;
 			}
 		}
 	}
-	var sortedAlts=sortAssosiationArrayDesc(alternativeMarkMap);
-	return [sortedAlts[sortedAlts.length-1]];
+	var sortedAlts = sortAssosiationArrayDesc(alternativeMarkMap,false);
+	return sortedAlts;
 }
 
 function getBordaResult(alternatives) {
 	var relultMark = [];
-	for (var i = 0; i < alternatives.length; i++) {
+	for ( var i = 0; i < alternatives.length; i++) {
 		var altCount = 1;
 		var alternativeCount = alternatives[i].length;
-		for (var j = 0; j < alternativeCount; j++) {
+		for ( var j = 0; j < alternativeCount; j++) {
 			var key = alternatives[i][j];
 			if (!relultMark.hasOwnProperty(key)) {
 				relultMark[key] = 0;
@@ -63,18 +80,14 @@ function getBordaResult(alternatives) {
 			altCount++;
 		}
 	}
-	return sortAssosiationArrayDesc(relultMark);
-}
-function getKoplendaResult(alternatives) {
-	// TODO implement Method Koplenda
-	return alternatives[0];
+	return sortAssosiationArrayDesc(relultMark,true);
 }
 
 function getSimpsonsResult(alternatives) {
 	var pairs = [];
 	var alters = alternatives[0];
 	makeSimpsonPairs(alternatives[0], pairs);
-	for (var i = 0; i < alternatives.length; i++) {
+	for ( var i = 0; i < alternatives.length; i++) {
 		var tmp = alternatives[i];
 		// console.log("Current expert decision = " + tmp);
 		var countPair = countSimpson(tmp, pairs);
@@ -83,10 +96,10 @@ function getSimpsonsResult(alternatives) {
 		tmpPair[2] = countPair[2];
 		pairs[index] = countPair;
 	}
-
+	// console.log(JSON.stringify(pairs));
 	var compairs = [];
 	var count = 0;
-	for (var i = 0; i < pairs.length; i++) {
+	for ( var i = 0; i < pairs.length; i++) {
 		var currentPair = pairs[i];
 		var pair = _.findWhere(pairs, [ currentPair[1], currentPair[0] ]);
 		// console.log(currentPair + " vs " + pair);
@@ -94,26 +107,30 @@ function getSimpsonsResult(alternatives) {
 			compairs[count] = currentPair;
 			count++;
 		}
-
 	}
-	for (var i = 0; i < compairs.length; i++) {
-		var currentPair = compairs[i];
-		var pair = _.findWhere(compairs, [ currentPair[1], currentPair[0] ]);
-		if (typeof (pair) != 'undefined') {
-			compairs.splice(i, 1);
-		}
-	}
-
-	var best = _.max(compairs, function(compairs) {
+	// console.log(JSON.stringify(compairs));
+	// for ( var i = 0; i < compairs.length; i++) {
+	// var currentPair = compairs[i];
+	// var pair = _.findWhere(compairs, [ currentPair[1], currentPair[0] ]);
+	// if (typeof (pair) != 'undefined') {
+	// compairs.splice(i, 1);
+	// }
+	// }
+	// console.log(JSON.stringify(compairs));
+	var b = _.max(compairs, function(compairs) {
 		return compairs[2];
 	});
+	var best = _.filter(compairs, function(compair) {
+		return compair[2] == b[2];
+	});
+	// console.log(JSON.stringify(best));
 	return best;
 }
 
 function countSimpson(tmp, pairs) {
 	var tmpPair = [];
-	for (var i = 0; i < tmp.length; i++) {
-		for (var j = 0; j < tmp.length; j++) {
+	for ( var i = 0; i < tmp.length; i++) {
+		for ( var j = 0; j < tmp.length; j++) {
 			if (tmp[i] != tmp[j]) {
 				// console.log("Current pair = " + tmp[i] + " vs " + tmp[j]);
 				var indexI = _.indexOf(tmp, tmp[i]);
@@ -131,12 +148,12 @@ function countSimpson(tmp, pairs) {
 	return tmpPair;
 }
 function makeSimpsonPairs(someArray, storage) {
-	for (var i = 0; i < someArray.length; i++) {
-		for (var j = 0; j < someArray.length; j++) {
+	for ( var i = 0; i < someArray.length; i++) {
+		for ( var j = 0; j < someArray.length; j++) {
 			storage.push([ someArray[i], someArray[j], 0 ]);
 		}
 	}
-	for (var i = 0; i < storage.length; i++) {
+	for ( var i = 0; i < storage.length; i++) {
 		var tmp = storage[i];
 		if (tmp[0] == tmp[1]) {
 			storage.splice(i, 1);
@@ -205,15 +222,21 @@ function kondorseForward(comparisonArr, pair, rating) {
 	}
 }
 
-function sortAssosiationArrayDesc(arr) {
+function sortAssosiationArray(arr, isDesc) {
 	var sortedKeys = [];
 	var sortedObj = [];
 	for (key in arr) {
 		sortedKeys.push([ key, arr[key] ]);
 	}
-	sortedKeys.sort(function(a, b) {
-		return b[1] - a[1];
-	});
+	if (isDesc) {
+		sortedKeys.sort(function(a, b) {
+			return b[1] - a[1];
+		});
+	} else {
+		sortedKeys.sort(function(a, b) {
+			return a[1] - b[1];
+		});
+	}
 	for ( var i in sortedKeys) {
 		sortedObj.push(sortedKeys[i][0]);
 	}
@@ -228,7 +251,7 @@ function compare(alt1, alt2, results) {
 
 function makePairs(someArray, storage) {
 	var rest = _.rest(someArray, 1);
-	for (var i = 0; i < rest.length; i++) {
+	for ( var i = 0; i < rest.length; i++) {
 		storage.push([ someArray[0], rest[i] ]);
 	}
 	if (rest.length != 0)
