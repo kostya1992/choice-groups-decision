@@ -15,7 +15,11 @@ function process() {
 		resultTable += "<tr>";
 		for ( var j = 0; j < 4; j++) {
 			if (i == 0 && j == 2) {
-				resultTable += "<td>" + alternativesValue[result[j]] + "</td>";
+				resultTable += "<td>";
+				for ( var k = 0; k < result[j].length; k++) {
+					resultTable+=alternativesValue[result[j][k]]+" ";
+				}
+				resultTable += "</td>";
 			} else if (j == 2) {
 				resultTable += "<td></td>";
 			} else {
@@ -26,7 +30,7 @@ function process() {
 		resultTable += "</tr>";
 	}
 	resultTable += "</table>";
-	$("#resultDiv").append(resultTable);
+	$("#resultDiv").html(resultTable);
 }
 
 function getAllResults(alternatives) {
@@ -36,7 +40,7 @@ function getAllResults(alternatives) {
 	var kondorseResult = getKondorseResult(alternatives);
 	resultAllMethods[1] = kondorseResult;
 	var simpsonaResult = getSimpsonsResult(alternatives);
-	resultAllMethods[2] = simpsonaResult[0][0];
+	resultAllMethods[2] = simpsonaResult;
 	var koplandResult = getKoplandResult(alternatives);
 	resultAllMethods[3] = koplandResult;
 	return resultAllMethods;
@@ -62,7 +66,7 @@ function getKoplandResult(alternatives) {
 			}
 		}
 	}
-	var sortedAlts = sortAssosiationArrayDesc(alternativeMarkMap,false);
+	var sortedAlts = sortAssosiationArray(alternativeMarkMap, false);
 	return sortedAlts;
 }
 
@@ -80,50 +84,54 @@ function getBordaResult(alternatives) {
 			altCount++;
 		}
 	}
-	return sortAssosiationArrayDesc(relultMark,true);
+	return sortAssosiationArray(relultMark, true);
 }
 
 function getSimpsonsResult(alternatives) {
 	var pairs = [];
-	var alters = alternatives[0];
 	makeSimpsonPairs(alternatives[0], pairs);
 	for ( var i = 0; i < alternatives.length; i++) {
 		var tmp = alternatives[i];
-		// console.log("Current expert decision = " + tmp);
 		var countPair = countSimpson(tmp, pairs);
 		var tmpPair = _.findWhere(pairs, [ countPair[0], countPair[1] ]);
 		var index = _.indexOf(pairs, tmp);
 		tmpPair[2] = countPair[2];
 		pairs[index] = countPair;
 	}
-	// console.log(JSON.stringify(pairs));
+	console.log(JSON.stringify(pairs));
 	var compairs = [];
 	var count = 0;
 	for ( var i = 0; i < pairs.length; i++) {
 		var currentPair = pairs[i];
 		var pair = _.findWhere(pairs, [ currentPair[1], currentPair[0] ]);
-		// console.log(currentPair + " vs " + pair);
 		if (currentPair[2] <= pair[2]) {
 			compairs[count] = currentPair;
 			count++;
 		}
 	}
-	// console.log(JSON.stringify(compairs));
-	// for ( var i = 0; i < compairs.length; i++) {
-	// var currentPair = compairs[i];
-	// var pair = _.findWhere(compairs, [ currentPair[1], currentPair[0] ]);
-	// if (typeof (pair) != 'undefined') {
-	// compairs.splice(i, 1);
-	// }
-	// }
-	// console.log(JSON.stringify(compairs));
 	var b = _.max(compairs, function(compairs) {
 		return compairs[2];
 	});
 	var best = _.filter(compairs, function(compair) {
 		return compair[2] == b[2];
 	});
-	// console.log(JSON.stringify(best));
+	var mass = [];
+	for ( var i = 0; i < best.length; i++) {
+		for ( var j = 0; j < 2; j++) {
+			mass.push(best[i][j]);
+		}
+	}
+	mass=_.uniq(mass);
+	console.log(JSON.stringify(mass));
+	var best = _.filter(mass, function(element) {
+		for ( var i = 0; i < pairs.length; i++) {
+			if(pairs[i][0]==element && pairs[i][2]==0){
+				return false;
+			}
+		}
+		return true;
+	});
+	console.log(JSON.stringify(best));
 	return best;
 }
 
