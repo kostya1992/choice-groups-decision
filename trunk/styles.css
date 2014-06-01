@@ -132,10 +132,22 @@ body {
 	width: 100%;
 }
 
-}
 #sourceAlternatives input{
 	width: 280px;
 }
 .form-inline,.btn{
     margin: 3px;
+}
+
+.rating-block{
+    width: auto;
+    vertical-align: middle;
+    display: inline-block;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    /*background-color: rgba(29, 31, 31, 0.26);*/
+}
+
+.experts li{
+    padding-bottom: 5px;
 }
