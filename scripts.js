@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 function init() {
 	window.alternativeIndex = 4;
@@ -45,18 +45,18 @@ function addExpert() {
 							+ expertIndex
 							+ '"><form id ="expertForm_'
 							+ expertIndex
-							+ '" role="form" class="form-inline"><input type="text" class="form-control" value="Expert Name"><label type="label" name="expandLabel'
+							+ '" role="form" class="form-inline"><input type="text" class="form-control"  placeholder="Виборець"><label type="label" name="expandLabel'
 							+ expertIndex
 							+ '" class="form-control" onclick="expand('
 							+ expertIndex
-							+ ')"> Expand</label><button type="button" class="btn btn-danger btn-xs" onclick="deleteExpert('
+							+ ')"> Ранжувати</label><button type="button" class="btn btn-danger btn-xs" onclick="deleteExpert('
 							+ expertIndex
 							+ ')">X</button><div id="alternativesOfEpert'
 							+ expertIndex
-							+ '" class="form-control" style="display: none;"><ul name="alternatives" class="sortable alternatives"></ul></div></form></li>');
+							+ '" class="rating-block" style="display: none;"><ul name="alternatives" class="sortable alternatives"></ul></div></form></li>');
 	if (addExpertFirstTime) {
 		expertFormHeight = $('#expertForm_0').height();
-	}
+    }
 	var cloned = $('#sourceAlternatives').clone();
 	cloned.find('li').each(function() {
 		inputEl = $(this).children().first();
@@ -90,11 +90,8 @@ function expand(expertIndex) {
 	var form = $('#expertForm_' + expertIndex);
 	if (div.css('display') == 'none') {
 		div.show('fast');
-		var alternLength = $('#sourceAlternatives li').length;
-		form.height(form.height() + (alternLength * 28));
 	} else {
 		div.hide('fast');
-		form.height(expertFormHeight);
 	}
 
 }
@@ -130,7 +127,7 @@ function blockAlternatives() {
 		$('#blockerButton').attr("class", "btn border btn-info blockerButton");
 		$('#blockerButton')
 				.text(
-						"Return to the alternatives choosing? All experts would be removed.");
+						"Повернутися до редагування альтернатив? Всі голоса виборців будуть видалені.");
 		addExpert();
 		$('#resultButton').prop('disabled', false);
 	}
