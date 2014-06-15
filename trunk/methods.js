@@ -4,7 +4,7 @@ function process() {
 	console.log(JSON.stringify(alternatives));
 	var result = getAllResults(alternatives);
 	var alternativesValue = [];
-	for ( var i = 0; i < 4; i++) {
+	for ( var i = 0; i < $("#sourceAlternatives li").length; i++) {
 		alternativesValue["alternative_" + i] = $(
 				"#alternative_" + i + " input").val();
 	}
