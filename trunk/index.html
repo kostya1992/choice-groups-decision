@@ -21,38 +21,43 @@
 	<h4 align="center">Відомі алгоритми прийняття колективних рішень</h4>
 	<div id="main" class="container ua-bg">
 
+		<p style="color: silver;">Експертна система з використанням Методу
+			Кондорсе, Методу Борда, Правила Копленда, Правила Сімпсона</p>
 		<div id="workingArea" class="container ua-bg">
-			<p style="color: silver;">
-				 Метод Кондорсе<br>
-				Метод Борда<br> Правило Копленда<br>Правило Сімпсона
-			</p>
-			<h2 style="color: white;" align="center">Куди поїхати
-				відпочивати в межах України?</h2>
 
+			<select class="form-control theme-input">
+				<option>Яка з дисциплін більш корисна?</option>
+				<option>Куди поїхати відпочивати в межах України?</option>
+				<option>Яка з дисциплін більш цікава?</option>
+				<option>Яка з кафедр краща?</option>
+				<option>Яке авто обрати?</option>
+				<option>Яким алгоритмом обчислювати?</option>
+			</select>
 			<div id="initAlternativesDivBlocker" class="container">
 				<div id="initAlternativesDiv">
-					Введіть кількість альтернатив, яку необхідно додати <input id="addAltAmount" type="number"
-						min="1" style="width: 46px; height: 25px">
+					Введіть кількість альтернатив, яку необхідно додати <input
+						id="addAltAmount" type="number" min="1"
+						style="width: 46px; height: 25px">
 					<button type="button" class="btn btn-success"
 						onclick="addAlternatives()">+</button>
 
 					<ul id="sourceAlternatives" class="sourceAlternatives">
-						<li id="alternative_0" class="form-inline"><input type="text"
-							class="form-control" value="Львів" />
-							<button type="button" class="btn btn-danger btn-xs"
-								onclick="deleteAlternative(0)">X</button></li>
-						<li id="alternative_1" class="form-inline"><input type="text"
-							class="form-control" value="Карпати" />
-							<button type="button" class="btn btn-danger btn-xs"
-								onclick="deleteAlternative(1)">X</button></li>
-						<li id="alternative_2" class="form-inline"><input type="text"
-							class="form-control" value="Трускавець" />
-							<button type="button" class="btn btn-danger btn-xs"
-								onclick="deleteAlternative(2)">X</button></li>
-						<li id="alternative_3" class="form-inline"><input type="text"
-							class="form-control" value="Кам'янець подільський" />
-							<button type="button" class="btn btn-danger btn-xs"
-								onclick="deleteAlternative(3)">X</button></li>
+						<!-- 						<li id="alternative_0" class="form-inline"><input type="text" -->
+						<!-- 							class="form-control" value="Львів" /> -->
+						<!-- 							<button type="button" class="btn btn-danger btn-xs" -->
+						<!-- 								onclick="deleteAlternative(0)">X</button></li> -->
+						<!-- 						<li id="alternative_1" class="form-inline"><input type="text" -->
+						<!-- 							class="form-control" value="Карпати" /> -->
+						<!-- 							<button type="button" class="btn btn-danger btn-xs" -->
+						<!-- 								onclick="deleteAlternative(1)">X</button></li> -->
+						<!-- 						<li id="alternative_2" class="form-inline"><input type="text" -->
+						<!-- 							class="form-control" value="Трускавець" /> -->
+						<!-- 							<button type="button" class="btn btn-danger btn-xs" -->
+						<!-- 								onclick="deleteAlternative(2)">X</button></li> -->
+						<!-- 						<li id="alternative_3" class="form-inline"><input type="text" -->
+						<!-- 							class="form-control" value="Кам'янець подільський" /> -->
+						<!-- 							<button type="button" class="btn btn-danger btn-xs" -->
+						<!-- 								onclick="deleteAlternative(3)">X</button></li> -->
 					</ul>
 				</div>
 			</div>
@@ -62,8 +67,9 @@
 
 			<div id="initExpertsDivBlocker" class="container">
 				<div id="initExpertsDiv">
-					Введіть кількість виборців, яку необхідно додати <input id="addExpAmount" type="number"
-						min="1" style="width: 46px; height: 25px">
+					Введіть кількість виборців, яку необхідно додати <input
+						id="addExpAmount" type="number" min="1"
+						style="width: 46px; height: 25px">
 					<button type="button" class="btn btn-success"
 						onclick="addExperts()">+</button>
 					<ul id="expertsList" class="experts">
@@ -71,12 +77,10 @@
 				</div>
 			</div>
 
-			<button id="resultButton" type="button" class="btn btn-info border" onclick="process()">Прорахувати
-				рішення</button>
-				
-			<div id="resultDiv" class="container">
+			<button id="resultButton" type="button" class="btn btn-info border"
+				onclick="process()">Прорахувати рішення</button>
 
-			</div>
+			<div id="resultDiv" class="container"></div>
 		</div>
 	</div>
 </body>
