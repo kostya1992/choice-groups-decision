@@ -2,7 +2,7 @@
  *
  */
 function init() {
-	window.alternativeIndex = 4;
+	window.alternativeIndex = 0;
 	window.expertIndex = 0;
 	window.expertFormHeight = 0;
 	window.addExpertFirstTime = true;
@@ -16,7 +16,7 @@ function addAlternative() {
 			.append(
 					'<li id="alternative_'
 							+ alternativeIndex
-							+ '" class="form-inline" ><input type="text"class="form-control" value="Item '
+							+ '" class="form-inline" ><input type="text"class="form-control" value="Variant '
 							+ alternativeIndex
 							+ '"/><button type="button" id="del_alt_'
 							+ alternativeIndex
