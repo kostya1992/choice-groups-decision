@@ -1,5 +1,5 @@
 /**
- *
+ * 
  */
 function init() {
 	window.alternativeIndex = 0;
@@ -56,7 +56,7 @@ function addExpert() {
 							+ '" class="rating-block" style="display: none;"><ul name="alternatives" class="sortable alternatives"></ul></div></form></li>');
 	if (addExpertFirstTime) {
 		expertFormHeight = $('#expertForm_0').height();
-    }
+	}
 	var cloned = $('#sourceAlternatives').clone();
 	cloned.find('li').each(function() {
 		inputEl = $(this).children().first();
@@ -144,3 +144,41 @@ function unBlockExperts() {
 	$('#initExpertsDiv *').prop('disabled', false);
 	$('#initExpertsDivBlocker').removeClass("blocker");
 }
+$(function() {
+	$('#questions')
+			.change(
+					function() {
+						var selected = $('#questions').val();
+						var newOptions = [];
+						newOptions['Яка з дисциплін більш корисна?'] = [
+								"Теорія коллективного вибору",
+								"Теорія алгоритмів" ];
+						newOptions['Куди поїхати відпочивати в межах України?'] = [
+								"Львів", "Київ", "Карпаты" ];
+						newOptions['Яка з дисциплін більш цікава?'] = [
+								"Теорія коллективного вибору",
+								"Теорія алгоритмів" ];
+						newOptions['Яка з кафедр краща?'] = [
+								"Кафедра інтелектуальних інформаційних систем",
+								"Кафедра інформаційних технологій",
+								"Кафедра прикладної та вищої математики" ];
+						newOptions['Яке авто обрати?'] = [
+								"BMW",
+								"Mitsubishi" ];
+						var alternatives = newOptions[selected];
+						console.log(alternatives);
+						var alt = '';
+						if (alternatives != undefined) {
+							for (var i = 0; i < alternatives.length; i++) {
+								alt += '<li id="alternative_'
+										+ i
+										+ '" class="form-inline"><input type="text" class="form-control" value="'
+										+ alternatives[i]
+										+ '" /><button type="button" class="btn btn-danger btn-xs" onclick="deleteAlternative('
+										+ i + ')">X</button></li>'
+							}
+						}
+						$("ul.sourceAlternatives").html(alt);
+
+					});
+});
