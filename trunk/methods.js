@@ -169,38 +169,40 @@ function makeSimpsonPairs(someArray, storage) {
 	}
 }
 
+function getVotingProfile(alternatives) {
+    var pairs = [];
+    makePairs(alternatives[0], pairs);
+    var comparisonResult = [];
+    var comparisonArr = [];
+    _.each(pairs, function (pair) {
+        var comparedGroup = compare(pair[0], pair[1], alternatives);
+        if (!_.has(comparedGroup, pair[0])) {
+            var obj = {};
+            obj[pair[0]] = 0;
+            _.extend(comparedGroup, obj);
+        }
+        if (!_.has(comparedGroup, pair[1])) {
+            var obj = {};
+            obj[pair[1]] = 0;
+            _.extend(comparedGroup, obj);
+        }
+        comparisonResult.push(comparedGroup);
+        var sortedPairs = _.sortBy(_.pairs(comparedGroup), function (pair) {
+            return -1 * pair[1];
+        });
+        comparisonArr.push([ sortedPairs[0][0], sortedPairs[1][0] ]);
+    });
+    return {comparisonArr:comparisonArr, profile:comparisonResult};
+}
+
 function getKondorseResult(alternatives) {
-	var pairs = [];
-	makePairs(alternatives[0], pairs);
-	// console.log("all possible pairs - " + JSON.stringify(pairs));
-	var comparisonResult = [];
-	var comparisonArr = [];
-	_.each(pairs, function(pair) {
-		var comparedGroup = compare(pair[0], pair[1], alternatives);
-		if (!_.has(comparedGroup, pair[0])) {
-			var obj = {};
-			obj[pair[0]] = 0;
-			_.extend(comparedGroup, obj);
-		}
-		if (!_.has(comparedGroup, pair[1])) {
-			var obj = {};
-			obj[pair[1]] = 0;
-			_.extend(comparedGroup, obj);
-		}
-		comparisonResult.push(comparedGroup);
-		var sortedPairs = _.sortBy(_.pairs(comparedGroup), function(pair) {
-			return -1 * pair[1];
-		});
-		comparisonArr.push([ sortedPairs[0][0], sortedPairs[1][0] ]);
-	});
-	// console.log("Comparison result by Kondorse : "
-	// + JSON.stringify(comparisonResult));
+
+    var votingProfile = getVotingProfile(alternatives);
 	var rating = [];
-	rating.push(comparisonArr[0][0]);
-	rating.push(comparisonArr[0][1]);
-	kondorseBackward(_.rest(comparisonArr), comparisonArr[0], rating);
-	kondorseForward(_.rest(comparisonArr), comparisonArr[0], rating);
-	// alert("The winner is " + $("#" + rating[0] + " input").val());
+	rating.push(votingProfile.comparisonArr[0][0]);
+	rating.push(votingProfile.comparisonArr[0][1]);
+	kondorseBackward(_.rest(votingProfile.comparisonArr), votingProfile.comparisonArr[0], rating);
+	kondorseForward(_.rest(votingProfile.comparisonArr), votingProfile.comparisonArr[0], rating);
 	return rating;
 }
 
