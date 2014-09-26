@@ -181,4 +181,26 @@ $(function() {
 						$("ul.sourceAlternatives").html(alt);
 
 					});
+
+    $("#show-profile").click(function(){
+        $("#profile table").empty();
+        var alternatives = getAlternatives();
+        var profile = getVotingProfile(alternatives).profile;
+        var alterNames = {};
+        _.each(alternatives[0], function (id) {
+            alterNames[id]= $("#" +id + " input").val();
+        });
+        $("#profile table").append('<tr class="warning"><th>Вподобання</th><th>Кількість виборців</th></tr>');
+        for(var i=0; i<profile.length; i++){
+            var pair = profile[i];
+            var keys = _.keys(pair);
+            var alter1 = keys[0];
+            var alter2 = keys[1];
+            var row1 = "<tr><td>" + alterNames[ alter1] +" > "+alterNames[ alter2]+ "</td><td>" +pair[alter1] +"</td></tr>";
+            $("#profile table").append(row1);
+            var row2 = "<tr><td>" + alterNames[alter2] +" > "+alterNames[alter1]+ "</td><td>" +pair[alter2] +"</td></tr>";
+            $("#profile table").append(row2);
+        }
+        $("#profile").show();
+    })
 });
