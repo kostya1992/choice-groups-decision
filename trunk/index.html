@@ -13,7 +13,7 @@
 	href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 <link rel="stylesheet"
 	href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
-	
+
 <link rel="stylesheet" href="styles.css">
 <script
 	src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
@@ -27,8 +27,11 @@
 			Кондорсе, Методу Борда, Правила Копленда, Правила Сімпсона</p>
 		<div id="workingArea" class="container ua-bg">
 
-			<select id="questions" class="form-control theme-input">
-			</select>
+			<input id="question" class="form-control theme-input" type="text" list="questions"
+				value="Оберіть або введіть проблему для вирішення тут..." />
+			<datalist id="questions" class="theme-input">
+			</datalist>
+
 			<div id="initAlternativesDivBlocker" class="container">
 				<div id="initAlternativesDiv">
 					Введіть кількість альтернатив, яку необхідно додати <input
@@ -38,22 +41,6 @@
 						onclick="addAlternatives()">+</button>
 
 					<ul id="sourceAlternatives" class="sourceAlternatives">
-						<!-- 						<li id="alternative_0" class="form-inline"><input type="text" -->
-						<!-- 							class="form-control" value="Львів" /> -->
-						<!-- 							<button type="button" class="btn btn-danger btn-xs" -->
-						<!-- 								onclick="deleteAlternative(0)">X</button></li> -->
-						<!-- 						<li id="alternative_1" class="form-inline"><input type="text" -->
-						<!-- 							class="form-control" value="Карпати" /> -->
-						<!-- 							<button type="button" class="btn btn-danger btn-xs" -->
-						<!-- 								onclick="deleteAlternative(1)">X</button></li> -->
-						<!-- 						<li id="alternative_2" class="form-inline"><input type="text" -->
-						<!-- 							class="form-control" value="Трускавець" /> -->
-						<!-- 							<button type="button" class="btn btn-danger btn-xs" -->
-						<!-- 								onclick="deleteAlternative(2)">X</button></li> -->
-						<!-- 						<li id="alternative_3" class="form-inline"><input type="text" -->
-						<!-- 							class="form-control" value="Кам'янець подільський" /> -->
-						<!-- 							<button type="button" class="btn btn-danger btn-xs" -->
-						<!-- 								onclick="deleteAlternative(3)">X</button></li> -->
 					</ul>
 				</div>
 			</div>
@@ -72,17 +59,18 @@
 					</ul>
 				</div>
 			</div>
-            <button class="btn btn-info border" id="show-profile">Показати профіль голосування</button>
-                <div id="profile" style="width: 60%; margin: 0 auto; display: none">
-                <table class="table table-condensed">
-                </table>
-                </div>
-            </div>
-			<button id="resultButton" type="button" class="btn btn-info border"
-				onclick="process()">Прорахувати рішення</button>
-
-			<div id="resultDiv" class="container"></div>
+			<button class="btn btn-info border" id="show-profile">Показати
+				профіль голосування</button>
+			<div id="profile" style="width: 60%; margin: 0 auto; display: none">
+				<table class="table table-condensed">
+				</table>
+			</div>
 		</div>
+		<button id="resultButton" type="button" class="btn btn-info border"
+			onclick="process()">Прорахувати рішення</button>
+
+		<div id="resultDiv" class="container"></div>
+	</div>
 	</div>
 </body>
 </html>
