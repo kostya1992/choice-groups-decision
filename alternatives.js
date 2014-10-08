@@ -51,10 +51,10 @@ $(document)
 				});
 
 $(function() {
-	$('#questions')
-			.change(
+	$('#question')
+			.bind('input',
 					function() {
-						var selected = $('#questions').val();
+						var selected = $('#question').val();
 						console.log(selected);
 						console.log(newOptions);
 						var alternatives = [];
@@ -63,7 +63,7 @@ $(function() {
 								alternatives = newOptions.list[i].values;
 							}
 						}
-						console.log(alternatives);
+						console.log("===="+alternatives);
 						if (alternatives != undefined) {
 							var alt = '';
 							for (var i = 0; i < alternatives.length; i++) {
@@ -76,6 +76,5 @@ $(function() {
 							}
 							$("ul.sourceAlternatives").html(alt);
 						}
-
 					});
 });
