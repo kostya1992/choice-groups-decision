@@ -12,6 +12,7 @@ function init() {
 }
 
 function addAlternative() {
+    alternativeIndex = $("ul.sourceAlternatives li").length;
 	$("ul.sourceAlternatives")
 			.append(
 					'<li id="alternative_'
