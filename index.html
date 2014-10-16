@@ -9,6 +9,8 @@
 <script src="alternatives.js" charset="UTF-8"></script>
 <script src="scripts.js" charset="UTF-8"></script>
 <script src="methods.js" charset="UTF-8"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
 <link rel="stylesheet"
 	href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 <link rel="stylesheet"
@@ -17,14 +19,18 @@
 <link rel="stylesheet" href="styles.css">
 <script
 	src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+<script  src="http://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.0.0/FileSaver.min.js"></script>
+
 </head>
 <body onload="init()">
 	<div id="msg"></div>
 	<h4 align="center">Відомі алгоритми прийняття колективних рішень</h4>
 	<div id="main" class="container ua-bg">
 
-		<p style="color: silver;">Експертна система з використанням Методу
-			Кондорсе, Методу Борда, Правила Копленда, Правила Сімпсона</p>
+		<div style="color: silver; display: inline-block; width: 85%">Експертна система з використанням Методу
+			Кондорсе, Методу Борда, Правила Копленда, Правила Сімпсона</div>
+        <div id="save-links"><a id="save" style="margin-right: 10px">Зберегти</a><a id="load-link">Завантажити</a>
+        <input type="file" id="fileinput" style="visibility:hidden; display: inline" /></div>
 		<div id="workingArea" class="container ua-bg">
 
 			<input id="question" class="form-control theme-input" type="text" list="questions"
@@ -46,7 +52,7 @@
 			</div>
 
 			<button id="blockerButton" type="button" class="btn btn-info border"
-				onclick="blockAlternatives()">Альтеративи обрані</button>
+				onclick="blockAlternatives()">Альтернативи обрані</button>
 
 			<div id="initExpertsDivBlocker" class="container">
 				<div id="initExpertsDiv">
@@ -65,6 +71,7 @@
 				<table class="table table-condensed">
 				</table>
 			</div>
+            <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 		</div>
 		<button id="resultButton" type="button" class="btn btn-info border"
 			onclick="process()">Прорахувати рішення</button>

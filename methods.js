@@ -1,6 +1,6 @@
 // process by all methods
 function process() {
-	var alternatives = getAlternatives();
+	var alternatives = getRangedAlternatives();
 	console.log(JSON.stringify(alternatives));
 	var result = getAllResults(alternatives);
 	var alternativesValue = [];
@@ -268,7 +268,7 @@ function makePairs(someArray, storage) {
 		makePairs(rest, storage);
 }
 
-function getAlternatives() {
+function getRangedAlternatives() {
 	var voteResults = [];
 	if ($(".alternatives") != undefined) {
 		$(".alternatives").each(function() {
