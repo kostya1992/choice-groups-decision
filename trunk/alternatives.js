@@ -24,31 +24,30 @@ var newOptions = {
 			}]
 };
 
-$(document)
-		.ready(
-				function() {
-					console.log("ready!");
-					var s = '';
-					for (var i = 0; i < newOptions.list.length; i++) {
-						s += "<option>" + newOptions.list[i].key + "</option> ";
-					}
-					$('#questions').html(s);
-
-					var alternatives = newOptions.list[0].values;
-					if (alternatives != undefined) {
-						var alt = '';
-						for (var i = 0; i < alternatives.length; i++) {
-							alt += '<li id="alternative_'
-									+ i
-									+ '" class="form-inline"><input type="text" class="form-control" value="'
-									+ alternatives[i]
-									+ '" /><button type="button" class="btn btn-danger btn-xs" onclick="deleteAlternative('
-									+ i + ')">X</button></li>';
-						}
-
-						$("ul.sourceAlternatives").html(alt);
-					}
-				});
+function getSourceAlternativesHtml(alternatives) {
+    var alt = '';
+    if (alternatives != undefined) {
+        for (var i = 0; i < alternatives.length; i++) {
+            alt += '<li id="alternative_'
+                + i
+                + '" class="form-inline"><input type="text" class="form-control" value="'
+                + alternatives[i]
+                + '" /><button type="button" class="btn btn-danger btn-xs" onclick="deleteAlternative('
+                + i + ')">X</button></li>';
+        }
+    }
+    return alt;
+}
+$(document).ready(function() {
+	console.log("ready!");
+	var s = '';
+	for (var i = 0; i < newOptions.list.length; i++) {
+		s += "<option>" + newOptions.list[i].key + "</option> ";
+	}
+	$('#questions').html(s);
+    var content = getSourceAlternativesHtml(newOptions.list[0].values);
+    $("ul.sourceAlternatives").html(content);
+});
 
 $(function() {
 	$('#question')
