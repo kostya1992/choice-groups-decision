@@ -180,3 +180,12 @@ body {
     cursor: pointer;
 
 }
+
+tbody.decorated tr:nth-child(4n), tbody.decorated tr:nth-child(4n-1) {
+    background: #FFD685;
+}
+tbody.decorated tr:nth-child(4n-2), tbody.decorated tr:nth-child(4n-3) {
+    background: #A3EDDA
+
+;
+}

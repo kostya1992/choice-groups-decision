@@ -213,11 +213,11 @@ function readSingleFile(evt) {
 }
 $(function() {
     $("#show-profile").click(function(){
-        $("#profile table").empty();
+        $("#profile .decorated").empty();
         var alternatives = getRangedAlternatives();
         var profile = getVotingProfile(alternatives).profile;
         var alterNames = getSourceAlterntatives();
-        $("#profile table").append('<tr class="warning"><th>Вподобання</th><th>Кількість виборців</th></tr>');
+//        $("#profile table").append('<tr class="warning"><th>Вподобання</th><th>Кількість виборців</th></tr>');
         var categories = [];
         var series = [];
         for(var i=0; i<alternatives.length; i++){
@@ -247,9 +247,9 @@ $(function() {
                 }
             }
             var row1 = "<tr><td>" + alterNames[ alter1] +" > "+alterNames[ alter2]+ "</td><td>" +pair[alter1] +"</td></tr>";
-            $("#profile table").append(row1);
+            $("#profile tbody.decorated").append(row1);
             var row2 = "<tr><td>" + alterNames[alter2] +" > "+alterNames[alter1]+ "</td><td>" +pair[alter2] +"</td></tr>";
-            $("#profile table").append(row2);
+            $("#profile tbody.decorated").append(row2);
         }
         console.log(categories);
         console.log(series);
