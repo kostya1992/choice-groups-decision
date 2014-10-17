@@ -38,7 +38,7 @@ function getAllResults(alternatives) {
 	var bordaResult = getBordaResult(alternatives);
 	resultAllMethods[0] = bordaResult;
 	var kondorseResult = getKondorseResult(alternatives);
-	resultAllMethods[1] = kondorseResult;
+	resultAllMethods[1] = (kondorseResult.length==bordaResult.length)?kondorseResult:bordaResult;
 	var simpsonaResult = getSimpsonsResult(alternatives);
 	resultAllMethods[2] = simpsonaResult;
 	var koplandResult = getKoplandResult(alternatives);
